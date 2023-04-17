@@ -6,10 +6,10 @@ import { RouterLink, RouterView } from 'vue-router'
 <div class="bg-findable text-white">
     <header class="flex w-full gap-x-12">
         <p>FAIR Combine</p>
-        <a class="ml-auto">Home</a>
-        <a>Indicators</a>
-        <a>About</a>
-        <a>GitHub</a>
+        <router-link to="/" class="ml-auto cursor-pointer">Home</router-link>
+        <router-link to="/indicators" class="cursor-pointer" disabled>Indicators</router-link>
+        <router-link to="/about" class="cursor-pointer">About</router-link>
+        <a href="https://github.com/FAIR-CA-indicators" class="cursor-pointer">GitHub</a>
     </header>
 
  

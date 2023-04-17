@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="107.56449mm"
+   height="90.766037mm"
+   viewBox="0 0 107.56449 90.766037"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="tacho_complete.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="3.659624"
+     inkscape:cx="252.07508"
+     inkscape:cy="128.70175"
+     inkscape:window-width="3840"
+     inkscape:window-height="2066"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showguides="true" />
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient1986">
+      <stop
+         style="stop-color:#9e0000;stop-opacity:1;"
+         offset="0"
+         id="stop1982" />
+      <stop
+         style="stop-color:#e4f200;stop-opacity:1;"
+         offset="1"
+         id="stop1984" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient1209">
+      <stop
+         style="stop-color:#009e2e;stop-opacity:1;"
+         offset="0"
+         id="stop991" />
+      <stop
+         style="stop-color:#e4f200;stop-opacity:1;"
+         offset="1"
+         id="stop993" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient1209-1">
+      <stop
+         style="stop-color:#009e2e;stop-opacity:1;"
+         offset="0"
+         id="stop986" />
+      <stop
+         style="stop-color:#e4f200;stop-opacity:1;"
+         offset="1"
+         id="stop988" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1209-1"
+       id="linearGradient1923"
+       gradientUnits="userSpaceOnUse"
+       x1="30.382427"
+       y1="133.62158"
+       x2="69.550499"
+       y2="57.442589"
+       spreadMethod="pad"
+       gradientTransform="matrix(-1,0,0,1,145.55318,0.13839373)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1986"
+       id="linearGradient1979"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(6.756475,0.13839449)"
+       x1="30.382427"
+       y1="133.62158"
+       x2="69.550499"
+       y2="57.442589"
+       spreadMethod="pad" />
+  </defs>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-22.372585,-42.938882)">
+    <g
+       id="g9947">
+      <path
+         id="path1918"
+         style="fill:url(#linearGradient1923);fill-opacity:1;fill-rule:evenodd;stroke-width:0.265;stroke-dasharray:none"
+         d="m 76.154833,42.938882 a 53.78968,53.78968 0 0 1 53.782247,53.789482 53.78968,53.78968 0 0 1 -14.74019,36.976546 l -7.83104,-13.56403 A 39.040897,39.040897 0 0 0 115.18811,96.728364 39.040897,39.040897 0 0 0 76.154833,57.687336 Z" />
+      <path
+         id="path1918-7"
+         style="fill:url(#linearGradient1979);fill-opacity:1;fill-rule:evenodd;stroke-width:0.265;stroke-dasharray:none"
+         d="m 76.154833,42.938882 a 53.78968,53.78968 0 0 0 -53.782248,53.789482 53.78968,53.78968 0 0 0 14.74018,36.976556 l 7.83105,-13.56403 A 39.040897,39.040897 0 0 1 37.121555,96.728364 39.040897,39.040897 0 0 1 76.154833,57.687336 Z" />
+    </g>
+    <path
+       id="path11222"
+       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.264999;stroke-dasharray:none"
+       d="M 76.154832 66.685753 L 74.096043 94.571906 L 74.097076 94.573456 A 2.9467595 2.9467595 0 0 0 73.208242 96.680305 A 2.9467595 2.9467595 0 0 0 76.154832 99.626895 A 2.9467595 2.9467595 0 0 0 79.101422 96.680305 A 2.9467595 2.9467595 0 0 0 78.213104 94.571906 L 78.213104 94.571389 L 76.154832 66.685753 z " />
+  </g>
+</svg>
