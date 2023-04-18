@@ -20,6 +20,42 @@
                                 <button @click="loadExplanation(q)"> {{ q.question }}</button> <!-- short description -->
                             </td>
                             <td class="text-center">
+                                <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="" @click="setScore(q, 'success')">
+                            </td>
+                            <td class="text-center">
+                                <input :id="q.name + '-radio-2'" type="radio" value="0.5" :name="q.name" class="" @click="setScore(q, 'warning')">
+                            </td>
+                            <td class="text-center">
+                                <input :id="q.name + '-radio-3'" type="radio" value="0" :name="q.name" class="" @click="setScore(q, 'failed')">
+                            </td>
+                            <td class="text-center">
+                                <input :id="q.name + '-radio-4'" type="radio" value="na" :name="q.name" class="" @click="setScore(q, 'not_applicable')">
+                            </td>  
+                        </tr>                        
+                    </table>
+                </div>
+
+            </div>
+
+
+
+            <h3 class="text-6xl font-bold text-accessible pb-4">Accessability</h3>
+
+            <div v-for="sub in aKeys" :key='sub' > <!-- sub group -->
+                <div class="bg-accessible text-white rounded-t-md w-fit pl-4 pr-4 ml-12 flex justify-center"> <!-- sub group tag -->
+                        {{ sub }}
+                </div>
+                <div class="bg-white shadow-xl p-4 rounded-2xl mb-6">
+                    <table class="table-auto">
+                        <tr>
+                            <th></th><th class="w-8">1</th><th class="w-8">0.5</th><th class="w-8">0</th><th class="w-8">n/a</th>
+                        </tr>
+                        <tr v-for="q in filterQ(f, sub)" :key='q.name'><!-- question box -->
+                            <td>
+                                <div class="rounded bg-accessible bg-opacity-25 text-accessible w-fit p-1 pl-2 pr-2">{{ q.priority }}</div> <!-- priority tag -->
+                                <button @click="loadExplanation(q)"> {{ q.question }}</button> <!-- short description -->
+                            </td>
+                            <td class="text-center">
                                 <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="">
                             </td>
                             <td class="text-center">
@@ -37,36 +73,70 @@
 
             </div>
 
-
-
-            <h3 class="text-6xl font-bold text-accessible">Accessibility</h3>
-            <div v-for="(q, index) in a" :key='q.name'>
-                <div v-if="index == 0 || a[index].sub_group != a[index-1].sub_group" class="bg-accessible text-white">
-                    {{ q.sub_group }}
+            <h3 class="text-6xl font-bold text-interopereable pb-4">Interoperability</h3>
+            <div v-for="sub in fKeys" :key='sub' > <!-- sub group -->
+                <div class="bg-interopereable text-white rounded-t-md w-fit pl-4 pr-4 ml-12 flex justify-center"> <!-- sub group tag -->
+                        {{ sub }}
                 </div>
-                <div >
-                    {{index }}
+                <div class="bg-white shadow-xl p-4 rounded-2xl mb-6">
+                    <table class="table-auto">
+                        <tr>
+                            <th></th><th class="w-8">1</th><th class="w-8">0.5</th><th class="w-8">0</th><th class="w-8">n/a</th>
+                        </tr>
+                        <tr v-for="q in filterQ(f, sub)" :key='q.name'><!-- question box -->
+                            <td>
+                                <div class="rounded bg-interopereable bg-opacity-25 text-interopereable w-fit p-1 pl-2 pr-2">{{ q.priority }}</div> <!-- priority tag -->
+                                <button @click="loadExplanation(q)"> {{ q.question }}</button> <!-- short description -->
+                            </td>
+                            <td class="text-center">
+                                <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="">
+                            </td>
+                            <td class="text-center">
+                                <input :id="q.name + '-radio-2'" type="radio" value="0.5" :name="q.name" class="">
+                            </td>
+                            <td class="text-center">
+                                <input :id="q.name + '-radio-3'" type="radio" value="0" :name="q.name" class="">
+                            </td>
+                            <td class="text-center">
+                                <input :id="q.name + '-radio-4'" type="radio" value="na" :name="q.name" class="">
+                            </td>  
+                        </tr>                        
+                    </table>
                 </div>
+
             </div>
+            
+            <h3 class="text-6xl font-bold text-reuseable pb-4">Reusability</h3>
+            <div v-for="sub in fKeys" :key='sub' > <!-- sub group -->
+                <div class="bg-reuseable text-white rounded-t-md w-fit pl-4 pr-4 ml-12 flex justify-center"> <!-- sub group tag -->
+                        {{ sub }}
+                </div>
+                <div class="bg-white shadow-xl p-4 rounded-2xl mb-6">
+                    <table class="table-auto">
+                        <tr>
+                            <th></th><th class="w-8">1</th><th class="w-8">0.5</th><th class="w-8">0</th><th class="w-8">n/a</th>
+                        </tr>
+                        <tr v-for="q in filterQ(f, sub)" :key='q.name'><!-- question box -->
+                            <td>
+                                <div class="rounded bg-reuseable bg-opacity-25 text-reuseable w-fit p-1 pl-2 pr-2">{{ q.priority }}</div> <!-- priority tag -->
+                                <button @click="loadExplanation(q)"> {{ q.question }}</button> <!-- short description -->
+                            </td>
+                            <td class="text-center">
+                                <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="">
+                            </td>
+                            <td class="text-center">
+                                <input :id="q.name + '-radio-2'" type="radio" value="0.5" :name="q.name" class="">
+                            </td>
+                            <td class="text-center">
+                                <input :id="q.name + '-radio-3'" type="radio" value="0" :name="q.name" class="">
+                            </td>
+                            <td class="text-center">
+                                <input :id="q.name + '-radio-4'" type="radio" value="na" :name="q.name" class="">
+                            </td>  
+                        </tr>                        
+                    </table>
+                </div>
 
-            <h3 class="text-6xl font-bold text-interopereable">Interoperability</h3>
-            <div v-for="(q, index) in i" :key='q.name'>
-                <div v-if="index == 0 || i[index].sub_group != i[index-1].sub_group" class="bg-interopereable text-white">
-                    {{ q.sub_group }}
-                </div>
-                <div >
-                    {{index }}
-                </div>
-            </div>
-
-            <h3 class="text-6xl font-bold text-reuseable">Reusability</h3>
-            <div v-for="(q, index) in r" :key='q.name'>
-                <div v-if="index == 0 || r[index].sub_group != r[index-1].sub_group" class="bg-reuseable text-white">
-                    {{ q.sub_group }}
-                </div>
-                <div >
-                    {{index }}
-                </div>
             </div>
         </div>
     </div>
@@ -134,13 +204,15 @@ export default defineComponent ({
                     console.log(response);
                     
                     this.sessionId = response.data.id;
-                    let qArr =  response.data.tasks;
+                    let tasks: Record<string, { id: string, name: string, session_id: string, children: Object, priority: string, status: string, comment: string, disabled: boolean, score: number }> = {};;
+                    tasks = response.data.tasks;
 
                     //this.questions = response.data;    
-                    console.log(qArr);
+                    console.log(tasks);
 
-                    for (const [id, task] of Object.entries(qArr)) {
-
+                    for (const [id, task] of Object.entries(tasks)) {
+                        //console.log(id, task);
+                        if(task.disabled) continue;
                         // session/{session_id}/tasks/{task_id}
                         axios
                             .get(this.backend + '/indicators/' + task.name)
@@ -199,6 +271,15 @@ export default defineComponent ({
             this.explanation = q;
             this.explanationFlag = true;
             console.debug(this.explanation);
+        },
+        setScore(q: { group?: string; sub_group?: string; name?: string; priority?: string; question?: string; short?: string; description?: string; id?: any; }, score: string){
+            //file://cors.redoc.ly/session/{session_id}/tasks/{task_id}
+            
+            let body = {"status": score}
+            axios.patch(this.backend + '/session/' + this.sessionId + "/tasks/" + q.id, body)
+                .then(response => {
+                    console.log(response);
+                });
         }
     }
 })
