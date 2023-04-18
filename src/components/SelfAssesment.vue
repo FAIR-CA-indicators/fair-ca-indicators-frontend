@@ -118,52 +118,53 @@ export default defineComponent ({
             r: [] as { group: string, sub_group: string, name: string, priority: string, question: string, short: string, description: string }[],
             explanationFlag: false,
             explanation: {} as { group: string; sub_group: string; name: string, priority: string, question: string, short: string, description: string},
-            score: 0
+            score: 0,
+            sessionId: "",
+            backend: "http://localhost:8000"
         }
     },
     mounted(){
         console.debug("!!!!!!!!!!!!");
         console.log(this.sessionStart);
 
-        let test = {
-                "has_archive": true,
-                "has_model": true,
-                "has_archive_metadata": true,
-                "is_model_standard": true,
-                "is_archive_standard": true,
-                "is_model_metadata_standard": true,
-                "is_archive_metadata_standard": true,
-                "is_biomodel": true,
-                "is_pmr": true,
-                "subject_type": "manual"
-                }
         //start session
         axios
-            .post("http://localhost:8000/session", this.sessionStart)
+            .post(this.backend + "/session", this.sessionStart)
             .then(response => {
-                    console.info(response);
-                    let qArr =  response.data;
+                    console.log(response);
+                    
+                    this.sessionId = response.data.id;
+                    let qArr =  response.data.tasks;
 
                     //this.questions = response.data;    
+                    console.log(qArr);
 
-                    qArr.forEach((q: { group: string; sub_group: string; name: string; priority: string; question: string; short: string, description:string }) => {
-                        if(q.group == 'F'){
-                            this.f.push(q);
-                            if(!this.fKeys.includes(q.sub_group)) this.fKeys.push(q.sub_group);
-                        } 
-                        else if(q.group == 'A'){
-                            this.a.push(q);
-                            if(!this.aKeys.includes(q.sub_group)) this.aKeys.push(q.sub_group);
-                        } 
-                        if(q.group == 'I'){
-                            this.i.push(q);
-                            if(!this.iKeys.includes(q.sub_group)) this.iKeys.push(q.sub_group);
-                        } 
-                        if(q.group == 'R') {
-                            this.r.push(q);
-                            if(!this.rKeys.includes(q.sub_group)) this.rKeys.push(q.sub_group);
-                        } 
-                    })
+                    for (const [id, task] of Object.entries(qArr)) {
+
+                        // session/{session_id}/tasks/{task_id}
+                        axios
+                            .get(this.backend + '/indicators/' + task.name)
+                            .then(r => {
+                                let q = r.data;
+                            
+                                if(q.group == 'F'){
+                                    this.f.push(q);
+                                    if(!this.fKeys.includes(q.sub_group)) this.fKeys.push(q.sub_group);
+                                } 
+                                else if(q.group == 'A'){
+                                    this.a.push(q);
+                                    if(!this.aKeys.includes(q.sub_group)) this.aKeys.push(q.sub_group);
+                                } 
+                                if(q.group == 'I'){
+                                    this.i.push(q);
+                                    if(!this.iKeys.includes(q.sub_group)) this.iKeys.push(q.sub_group);
+                                } 
+                                if(q.group == 'R') {
+                                    this.r.push(q);
+                                    if(!this.rKeys.includes(q.sub_group)) this.rKeys.push(q.sub_group);
+                                } 
+                            })
+                    }
                     console.log(this.f, this.a);
                 });
     },
