@@ -10,29 +10,28 @@
                         {{ sub }}
                 </div>
                 <div class="bg-white shadow-xl p-4 rounded-2xl mb-6">
-                    <table class="table-auto">
-                        <tr>
-                            <th></th><th class="w-8">1</th><th class="w-8">0.5</th><th class="w-8">0</th><th class="w-8">n/a</th>
-                        </tr>
-                        <tr v-for="q in filterQ(f, sub)" :key='q.name'><!-- question box -->
-                            <td>
+                        <div class="grid grid-cols-12 gap-4">
+                            <div class="col-span-8"></div><div class="m-auto font-medium">1</div><div class="m-auto font-medium">0.5</div><div class="m-auto font-medium">0</div><div class="m-auto font-medium">n/a</div>
+                        </div>
+                            
+                        <div v-for="q in filterQ(f, sub)" :key='q.name' class="grid grid-cols-12 gap-4 mb-4"><!-- question box -->
+                            <div class="col-span-8">
                                 <div class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2">{{ q.priority }}</div> <!-- priority tag -->
-                                <button @click="loadExplanation(q)"> {{ q.question }}</button> <!-- short description -->
-                            </td>
-                            <td class="text-center">
+                                <div @click="loadExplanation(q)"> {{ q.question }}</div> <!-- short description -->
+                            </div>
+                            <div class="m-auto"> 
                                 <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="" @click="setScore(q, 'success')">
-                            </td>
-                            <td class="text-center">
-                                <input :id="q.name + '-radio-2'" type="radio" value="0.5" :name="q.name" class="" @click="setScore(q, 'warning')">
-                            </td>
-                            <td class="text-center">
+                            </div>
+                            <div class="m-auto">
+                                <input :id="q.name + '-radio-2'" type="radio" value="0.5" :name="q.name" class="" @click="setScore(q, 'warnings')">
+                            </div>
+                            <div class="m-auto">
                                 <input :id="q.name + '-radio-3'" type="radio" value="0" :name="q.name" class="" @click="setScore(q, 'failed')">
-                            </td>
-                            <td class="text-center">
+                            </div>
+                            <div class="m-auto">
                                 <input :id="q.name + '-radio-4'" type="radio" value="na" :name="q.name" class="" @click="setScore(q, 'not_applicable')">
-                            </td>  
-                        </tr>                        
-                    </table>
+                            </div>  
+                        </div>                        
                 </div>
 
             </div>
@@ -47,105 +46,105 @@
                 </div>
                 <div class="bg-white shadow-xl p-4 rounded-2xl mb-6">
                     <table class="table-auto">
-                        <tr>
-                            <th></th><th class="w-8">1</th><th class="w-8">0.5</th><th class="w-8">0</th><th class="w-8">n/a</th>
-                        </tr>
-                        <tr v-for="q in filterQ(f, sub)" :key='q.name'><!-- question box -->
-                            <td>
+                        <div>
+                            <div></div><div class="w-8">1</div><div class="w-8">0.5</div><div class="w-8">0</div><div class="w-8">n/a</div>
+                        </div>
+                        <div v-for="q in filterQ(a, sub)" :key='q.name'><!-- question box -->
+                            <div>
                                 <div class="rounded bg-accessible bg-opacity-25 text-accessible w-fit p-1 pl-2 pr-2">{{ q.priority }}</div> <!-- priority tag -->
                                 <button @click="loadExplanation(q)"> {{ q.question }}</button> <!-- short description -->
-                            </td>
-                            <td class="text-center">
-                                <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="">
-                            </td>
-                            <td class="text-center">
-                                <input :id="q.name + '-radio-2'" type="radio" value="0.5" :name="q.name" class="">
-                            </td>
-                            <td class="text-center">
-                                <input :id="q.name + '-radio-3'" type="radio" value="0" :name="q.name" class="">
-                            </td>
-                            <td class="text-center">
-                                <input :id="q.name + '-radio-4'" type="radio" value="na" :name="q.name" class="">
-                            </td>  
-                        </tr>                        
+                            </div>
+                            <div class="text-center">
+                                <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="" @click="setScore(q, 'success')">
+                            </div>
+                            <div class="text-center">
+                                <input :id="q.name + '-radio-2'" type="radio" value="0.5" :name="q.name" class="" @click="setScore(q, 'warnings')">
+                            </div>
+                            <div class="text-center">
+                                <input :id="q.name + '-radio-3'" type="radio" value="0" :name="q.name" class="" @click="setScore(q, 'failed')">
+                            </div>
+                            <div class="text-center">
+                                <input :id="q.name + '-radio-4'" type="radio" value="na" :name="q.name" class="" @click="setScore(q, 'not_applicable')">
+                            </div>  
+                        </div>                        
                     </table>
                 </div>
 
             </div>
 
             <h3 class="text-6xl font-bold text-interopereable pb-4">Interoperability</h3>
-            <div v-for="sub in fKeys" :key='sub' > <!-- sub group -->
+            <div v-for="sub in iKeys" :key='sub' > <!-- sub group -->
                 <div class="bg-interopereable text-white rounded-t-md w-fit pl-4 pr-4 ml-12 flex justify-center"> <!-- sub group tag -->
                         {{ sub }}
                 </div>
                 <div class="bg-white shadow-xl p-4 rounded-2xl mb-6">
                     <table class="table-auto">
-                        <tr>
-                            <th></th><th class="w-8">1</th><th class="w-8">0.5</th><th class="w-8">0</th><th class="w-8">n/a</th>
-                        </tr>
-                        <tr v-for="q in filterQ(f, sub)" :key='q.name'><!-- question box -->
-                            <td>
+                        <div>
+                            <div></div><div class="w-8">1</div><div class="w-8">0.5</div><div class="w-8">0</div><div class="w-8">n/a</div>
+                        </div>
+                        <div v-for="q in filterQ(i, sub)" :key='q.name'><!-- question box -->
+                            <div>
                                 <div class="rounded bg-interopereable bg-opacity-25 text-interopereable w-fit p-1 pl-2 pr-2">{{ q.priority }}</div> <!-- priority tag -->
                                 <button @click="loadExplanation(q)"> {{ q.question }}</button> <!-- short description -->
-                            </td>
-                            <td class="text-center">
-                                <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="">
-                            </td>
-                            <td class="text-center">
-                                <input :id="q.name + '-radio-2'" type="radio" value="0.5" :name="q.name" class="">
-                            </td>
-                            <td class="text-center">
-                                <input :id="q.name + '-radio-3'" type="radio" value="0" :name="q.name" class="">
-                            </td>
-                            <td class="text-center">
-                                <input :id="q.name + '-radio-4'" type="radio" value="na" :name="q.name" class="">
-                            </td>  
-                        </tr>                        
+                            </div>
+                            <div class="text-center">
+                                <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="" @click="setScore(q, 'success')">
+                            </div>
+                            <div class="text-center">
+                                <input :id="q.name + '-radio-2'" type="radio" value="0.5" :name="q.name" class="" @click="setScore(q, 'warnings')">
+                            </div>
+                            <div class="text-center">
+                                <input :id="q.name + '-radio-3'" type="radio" value="0" :name="q.name" class="" @click="setScore(q, 'failed')">
+                            </div>
+                            <div class="text-center">
+                                <input :id="q.name + '-radio-4'" type="radio" value="na" :name="q.name" class="" @click="setScore(q, 'not_applicable')">
+                            </div>  
+                        </div>                        
                     </table>
                 </div>
 
             </div>
             
             <h3 class="text-6xl font-bold text-reuseable pb-4">Reusability</h3>
-            <div v-for="sub in fKeys" :key='sub' > <!-- sub group -->
+            <div v-for="sub in rKeys" :key='sub' > <!-- sub group -->
                 <div class="bg-reuseable text-white rounded-t-md w-fit pl-4 pr-4 ml-12 flex justify-center"> <!-- sub group tag -->
                         {{ sub }}
                 </div>
                 <div class="bg-white shadow-xl p-4 rounded-2xl mb-6">
                     <table class="table-auto">
-                        <tr>
-                            <th></th><th class="w-8">1</th><th class="w-8">0.5</th><th class="w-8">0</th><th class="w-8">n/a</th>
-                        </tr>
-                        <tr v-for="q in filterQ(f, sub)" :key='q.name'><!-- question box -->
-                            <td>
+                        <div>
+                            <div></div><div class="w-8">1</div><div class="w-8">0.5</div><div class="w-8">0</div><div class="w-8">n/a</div>
+                        </div>
+                        <div v-for="q in filterQ(r, sub)" :key='q.name'><!-- question box -->
+                            <div>
                                 <div class="rounded bg-reuseable bg-opacity-25 text-reuseable w-fit p-1 pl-2 pr-2">{{ q.priority }}</div> <!-- priority tag -->
                                 <button @click="loadExplanation(q)"> {{ q.question }}</button> <!-- short description -->
-                            </td>
-                            <td class="text-center">
-                                <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="">
-                            </td>
-                            <td class="text-center">
-                                <input :id="q.name + '-radio-2'" type="radio" value="0.5" :name="q.name" class="">
-                            </td>
-                            <td class="text-center">
-                                <input :id="q.name + '-radio-3'" type="radio" value="0" :name="q.name" class="">
-                            </td>
-                            <td class="text-center">
-                                <input :id="q.name + '-radio-4'" type="radio" value="na" :name="q.name" class="">
-                            </td>  
-                        </tr>                        
+                            </div>
+                            <div class="text-center">
+                                <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="" @click="setScore(q, 'success')">
+                            </div>
+                            <div class="text-center">
+                                <input :id="q.name + '-radio-2'" type="radio" value="0.5" :name="q.name" class="" @click="setScore(q, 'warnings')">
+                            </div>
+                            <div class="text-center">
+                                <input :id="q.name + '-radio-3'" type="radio" value="0" :name="q.name" class="" @click="setScore(q, 'failed')">
+                            </div>
+                            <div class="text-center">
+                                <input :id="q.name + '-radio-4'" type="radio" value="na" :name="q.name" class="" @click="setScore(q, 'not_applicable')">
+                            </div>  
+                        </div>                        
                     </table>
                 </div>
 
             </div>
         </div>
     </div>
-    <div class="w-1/4 bg-white text-black border-light-stroke border-l-2"> <!-- score and explenation block -->
+    <div class="w-1/4 bg-white text-black border-light-stroke border-l-2 h-screen sticky top-0"> <!-- score and explenation block -->
         <div> <!-- sorce -->
             <h3>Score</h3>
             <div class="w-full container relative h-72  border-light-stroke border-b-2"> <!-- tacho -->
                 <img src="@/assets/tacho_ring.svg" class="absolute  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 scale-75"> <!-- score tacho -->                               
-                <img  class="absolute top-1/2 left-1/2 rotateNeedle" @click="rotateNeedle" :style="{transform: `translate(-50%, -50%) rotate(${score * 2.6 - 130}deg) scale(75%)` }" id="needle" src="@/assets/tacho_needle.svg"> <!-- score needle --> <!-- :class="`rotate-[${score * 2.6 - 130}deg]` -->
+                <img  class="absolute top-1/2 left-1/2 rotateNeedle scale-75" @click="rotateNeedle" :style="{transform: `translate(-50%, -50%) rotate(${score * 2.6 - 130}deg) scale(75%)` }" id="needle" src="@/assets/tacho_needle.svg"> <!-- score needle --> <!-- :class="`rotate-[${score * 2.6 - 130}deg]` -->
                 <div class="absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">{{ score }}%</div>
             </div>
             <!-- <button class="" @click="score = score + 20">CHECK</button> -->
@@ -161,7 +160,9 @@
             <p>{{ explanation.short }}</p>
             <div class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2">Assesment details</div>
             <p>{{ explanation.description }}</p>
-
+        </div>
+        <div v-else>
+            Select an indicator to see its description here.
         </div>
     </div>
 </div>
@@ -218,6 +219,7 @@ export default defineComponent ({
                             .get(this.backend + '/indicators/' + task.name)
                             .then(r => {
                                 let q = r.data;
+                                q.taskId = id;
                             
                                 if(q.group == 'F'){
                                     this.f.push(q);
@@ -256,11 +258,11 @@ export default defineComponent ({
     },
     methods: {
         filterQ(qS: { group: string; sub_group: string; name: string; priority: string; question: string; short: string; description: string; }[], sub: string){
-            let arr = [];
+            let arr: { group: string; sub_group: string; name: string; priority: string; question: string; short: string; description: string; }[] = [];
             qS.forEach(q => {
                 if(q.sub_group == sub) arr.push(q);
             });   
-            return qS;        
+            return arr;        
 
         },
          rotateNeedle(){
@@ -272,13 +274,19 @@ export default defineComponent ({
             this.explanationFlag = true;
             console.debug(this.explanation);
         },
-        setScore(q: { group?: string; sub_group?: string; name?: string; priority?: string; question?: string; short?: string; description?: string; id?: any; }, score: string){
+        setScore(q: { group?: string; sub_group?: string; name?: string; priority?: string; question?: string; short?: string; description?: string; taskId?: string; }, score: string){
             //file://cors.redoc.ly/session/{session_id}/tasks/{task_id}
             
+            console.debug(q);
             let body = {"status": score}
-            axios.patch(this.backend + '/session/' + this.sessionId + "/tasks/" + q.id, body)
+            axios.patch(this.backend + '/session/' + this.sessionId + "/tasks/" + q.taskId, body)
                 .then(response => {
                     console.log(response);
+                    let r = response.data;
+                    this.score = Math.floor(r.score_all * 100);
+                })
+                .catch(error => {
+                    console.error(error.toJSON());
                 });
         }
     }

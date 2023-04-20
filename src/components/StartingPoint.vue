@@ -1,24 +1,24 @@
 <template>
-        <div class="flex">
-        <div class="basis-1/2 p-5">
-            <h1>FAIR Combine</h1>
-            <p>Fair Combine aims to automate the evaluation of models and archives following the FAIR Combine principle. </p>
+    <div class="flex bg-findable text-white p-10 ">
+        <div class="basis-1/2 p-5 rounded-lg space-y-4 ">
+            <h1 class="text-6xl font-bold"><span class="bg-clip-text text-transparent bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end">FAIR</span> Combine</h1>
+            <p class="pt-6">Fair Combine aims to automate the evaluation of models and archives following the FAIR Combine principle. </p>
 
-            <div class="inline-flex rounded-md shadow-sm" role="group">
-                <button @click="sessionInput.subject_type = 'url'" type="button" class="px-4 py-2 text-sm font-medium  shadow-none">
+            <div class="flex rounded-md shadow-none items-center justify-center" role="group">
+                <button @click="sessionInput.subject_type = 'url'" type="button" class="px-4 py-2 text-sm font-medium disabled:text-opacity-30" disabled>
                     external URL
                 </button>
                 <button @click="sessionInput.subject_type = 'file'" type="button" class="px-4 py-2 text-sm font-medium border-l border-r border-gray-200">
                     upload
                 </button>
-                <button @click="sessionInput.subject_type = 'manual'" type="button" class="px-4 py-2 text-sm font-medium shadow-none">
+                <button @click="sessionInput.subject_type = 'manual'" type="button" class="px-4 py-2 text-sm font-medium">
                     self assesment
                 </button>
             </div>
             <form class="w-full flex" v-if="sessionInput.subject_type == 'url'">
                 <label> 
                 </label>
-                <input class="basis-2/4 shadow border rounded" type="url" placeholder="https://">
+                <input class="basis-2/4 border rounded" type="url" placeholder="https://">
                 <button class="ml-auto bg-white text-findable rounded py-2 px-4 ">Start</button>
             </form>
             <form class="w-full flex" v-else-if="sessionInput.subject_type == 'file'">
@@ -26,7 +26,7 @@
                 <button>Start</button>
             </form>
             
-            <div v-else-if="sessionInput.subject_type == 'manual'" class="w-full flex-col" > 
+            <div v-else-if="sessionInput.subject_type == 'manual'" class="w-full flex-col p-4 shadow-glow shadow-findable-stroke border-findable-stroke border-2 rounded-lg" > 
                 <h3 class="mb-4 font-semibold text-white">Do you have a single model file or a Combine archive in Omex format?</h3>
                 <div class="flex">
                     <div class="flex items-center pl-4 ">
@@ -52,7 +52,7 @@
                 </div>
 
                 <h3 class="mb-4 font-semibold text-white">Do you provide the resources in the following standard formats:</h3>
-                <div class="flex">
+                <div class="grid grid-cols-2">
                     <div class="flex items-center pl-4 ">
                         <input id="modal-standard-radio-1" type="radio" value="is_model_standard" @change="sessionInput.is_model_standard = true" name="modal-standard-radio" class="w-4 h-4 text-white">
                         <label for="modal-standard-radio-1" class="w-full py-4 ml-2 text-sm font-medium text-white">Model as SBML</label>
@@ -83,20 +83,40 @@
                     </div>
                 </div>
 
-                <button @click="startSession()"  class="ml-auto bg-white text-findable rounded py-2 px-4">Start</button>
             </div>
+            <div class="flex w-full items-center justify-center">
+                <button @click="startSession()"  class="bg-white text-findable rounded py-2 px-4">Start</button>
+            </div>
+
         </div>
-        <div class="basis-1/2 p-5">
-            <ol class="list-none mb-5"> 
-                <li class="flex mb-2"><span class="w-6 h-6 rounded-full border-2 flex justify-center items-center">1</span><span> Enter the URL of a combine archive </span></li>
-                <li class="flex mb-2"><span class="w-6 h-6 rounded-full border-2 flex justify-center items-center">2</span> Click "Start"</li>
-                <li class="flex mb-2"><span class="w-6 h-6 rounded-full border-2 flex justify-center items-center">3</span> Automatic tests start</li>
-                <li class="flex mb-2"><span class="w-6 h-6 rounded-full border-2 flex justify-center items-center">4</span> Respond to a few questions</li>
-                <li class="flex mb-2"><span class="w-6 h-6 rounded-full border-2 flex justify-center items-center">5</span> Get your assesment results</li>
+        <div v-if="sessionInput.subject_type == 'url'" class="basis-1/2 p-5 ">
+            <ol class="list-none"> 
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">1</span><span> Enter the URL of a combine archive </span></li>
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Start"</li>
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Automatic tests start</li>
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">4</span> Respond to a few questions</li>
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">5</span> Get your assesment results</li>
+            </ol>
+        </div>
+        <div v-else-if="sessionInput.subject_type == 'file'" class="basis-1/2 p-5 flex justify-center items-center">
+            <ol class="list-none"> 
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">1</span><span> Select your local modal or archive </span></li>
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Start"</li>
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Automatic tests start</li>
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">4</span> Respond to a few questions</li>
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">5</span> Get your assesment results</li>
+            </ol>
+        </div>
+        <div v-else-if="sessionInput.subject_type == 'manual'" class="basis-1/2 p-5 flex justify-center items-center">
+            <ol class="list-none"> 
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">1</span><span> Describe your digital object</span></li>
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Start"</li>
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Do the self assessment</li>
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">4</span> Get your assesment results</li>
             </ol>
         </div>
     </div>
-    <div class="bg-white text-findable flex flex-wrap w-full">
+    <div class="bg-white text-findable p-10 flex flex-wrap w-full">
         <div class="basis-1/2">
             <span class="text-6xl font-bold">Findable</span>
             <p>The first step in (re)using data is to find them. Metadata and data should be easy to find for both humans and computers. Machine-readable metadata are essential for automatic discovery of datasets and services, so this is an essential component of the FAIRification process.</p>
@@ -113,7 +133,6 @@
             <span class="text-6xl font-bold">Reusable</span>
             <p>The ultimate goal of FAIR is to optimise the reuse of data. To achieve this, metadata and data should be well-described so that they can be replicated and/or combined in different settings.</p>
         </div>
-
     </div>
 </template>
 

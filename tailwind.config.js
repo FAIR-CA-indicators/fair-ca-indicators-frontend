@@ -14,22 +14,17 @@ module.exports = {
       'accessible': '#699432',
       'interopereable': '#E38B06',
       'reuseable': '#066EBA',
-      'light-stroke': '#EDEBF4'
+      'light-stroke': '#EDEBF4',
+      'findable-stroke':"#440BC0",
+      'gradient-start': "#5DFF11",
+      'gradient-mid': '#FFA63D',
+      'gradient-end': '#FF0000'
+
     },
-    rotate: {
-      '0': '-130deg',
-      '1': '-130deg',
-      '2': '-130deg',
-      '3': '-130deg',
-      '4': '-130deg',
-      '5': '-130deg',
-      '50': '0deg',
-      '60': '26deg',
-      '70': '52deg',
-      '80': '78deg',
-      '90': '104deg',
-      '100': '130deg',
+    boxShadow: {
+      'glow': '0px 0px 5px 5px',
     }
+
   },
   plugins: [],
 }
