@@ -1,6 +1,6 @@
 <template>
-    <StartingPoint v-if="mode == 'start'" @started="started"/>
-    <SelfAssesment v-else-if="mode == 'manual'" :sessionStart="sessionInput"/>
+    <StartingPoint v-if="mode == 'start'" @started="started" @load-session-id="loadRemoteSession" @load-local-session="loadLocalSession" :backend="backend"/>
+    <SelfAssesment v-else-if="mode == 'manual'" :loadSessionId="loadId" :loadLocalSession="localSession" :sessionStart="sessionInput" :backend="backend"/>
 </template>
 
 <script lang="ts">
@@ -26,8 +26,11 @@ export default defineComponent ({
                 "is_biomodel": boolean,
                 "is_pmr": boolean,
                 "subject_type": string
-            }
-
+            },
+            backend: "http://localhost:8000",
+            header: null,
+            loadId: "",
+            localSession: Object
         };
     },
     mounted() {
@@ -36,9 +39,17 @@ export default defineComponent ({
     methods: {
         started(sessionInput: { path: string; has_archive: boolean; has_model: boolean; has_archive_metadata: boolean; is_model_standard: boolean; is_archive_standard: boolean; is_model_metadata_standard: boolean; is_archive_metadata_standard: boolean; is_biomodel: boolean; is_pmr: boolean; subject_type: string; }){
             this.sessionInput = sessionInput;
-            console.debug("???????");
             console.debug(this.sessionInput);
-            this.mode=this.sessionInput.subject_type;
+            this.mode = this.sessionInput.subject_type;
+        },
+        loadRemoteSession(loadId: string){
+            this.loadId = loadId;
+
+            this.mode = 'manual';
+        },
+        loadLocalSession(localSession: any){
+            this.localSession = localSession;
+            this.mode = 'manual';
         }
     },
 

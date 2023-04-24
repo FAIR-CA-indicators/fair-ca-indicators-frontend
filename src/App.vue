@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-</script>
-
 <template>
 <div class="font-sans">
     <header class="flex w-full gap-x-12 text-xl bg-findable text-white p-10">
@@ -20,5 +16,10 @@ import { RouterLink, RouterView } from 'vue-router'
     </div>
 </div>
 </template>
+
+<script setup lang="ts">
+import { RouterLink, RouterView } from 'vue-router'
+</script>
+
 <style scoped>
 </style>

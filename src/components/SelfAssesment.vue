@@ -4,151 +4,23 @@
         <!-- Findable -->
         <div class="flex-col bg-background text-black p-8">
             <h3 class="text-6xl font-bold text-findable pb-4">Findability</h3>
-
-            <div v-for="sub in fKeys" :key='sub' > <!-- sub group -->
-                <div class="bg-findable text-white rounded-t-md w-fit pl-4 pr-4 ml-12 flex justify-center"> <!-- sub group tag -->
-                        {{ sub }}
-                </div>
-                <div class="bg-white shadow-xl p-4 rounded-2xl mb-6">
-                        <div class="grid grid-cols-12 gap-4">
-                            <div class="col-span-8"></div><div class="m-auto font-medium">1</div><div class="m-auto font-medium">0.5</div><div class="m-auto font-medium">0</div><div class="m-auto font-medium">n/a</div>
-                        </div>
-                            
-                        <div v-for="q in filterQ(f, sub)" :key='q.name' class="grid grid-cols-12 gap-4 mb-4"><!-- question box -->
-                            <div class="col-span-8">
-                                <div class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2">{{ q.priority }}</div> <!-- priority tag -->
-                                <div @click="loadExplanation(q)"> {{ q.question }}</div> <!-- short description -->
-                            </div>
-                            <div class="m-auto"> 
-                                <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="" @click="setScore(q, 'success')">
-                            </div>
-                            <div class="m-auto">
-                                <input :id="q.name + '-radio-2'" type="radio" value="0.5" :name="q.name" class="" @click="setScore(q, 'warnings')">
-                            </div>
-                            <div class="m-auto">
-                                <input :id="q.name + '-radio-3'" type="radio" value="0" :name="q.name" class="" @click="setScore(q, 'failed')">
-                            </div>
-                            <div class="m-auto">
-                                <input :id="q.name + '-radio-4'" type="radio" value="na" :name="q.name" class="" @click="setScore(q, 'not_applicable')">
-                            </div>  
-                        </div>                        
-                </div>
-
-            </div>
-
-
-
-            <h3 class="text-6xl font-bold text-accessible pb-4">Accessability</h3>
-
-            <div v-for="sub in aKeys" :key='sub' > <!-- sub group -->
-                <div class="bg-accessible text-white rounded-t-md w-fit pl-4 pr-4 ml-12 flex justify-center"> <!-- sub group tag -->
-                        {{ sub }}
-                </div>
-                <div class="bg-white shadow-xl p-4 rounded-2xl mb-6">
-                    <table class="table-auto">
-                        <div>
-                            <div></div><div class="w-8">1</div><div class="w-8">0.5</div><div class="w-8">0</div><div class="w-8">n/a</div>
-                        </div>
-                        <div v-for="q in filterQ(a, sub)" :key='q.name'><!-- question box -->
-                            <div>
-                                <div class="rounded bg-accessible bg-opacity-25 text-accessible w-fit p-1 pl-2 pr-2">{{ q.priority }}</div> <!-- priority tag -->
-                                <button @click="loadExplanation(q)"> {{ q.question }}</button> <!-- short description -->
-                            </div>
-                            <div class="text-center">
-                                <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="" @click="setScore(q, 'success')">
-                            </div>
-                            <div class="text-center">
-                                <input :id="q.name + '-radio-2'" type="radio" value="0.5" :name="q.name" class="" @click="setScore(q, 'warnings')">
-                            </div>
-                            <div class="text-center">
-                                <input :id="q.name + '-radio-3'" type="radio" value="0" :name="q.name" class="" @click="setScore(q, 'failed')">
-                            </div>
-                            <div class="text-center">
-                                <input :id="q.name + '-radio-4'" type="radio" value="na" :name="q.name" class="" @click="setScore(q, 'not_applicable')">
-                            </div>  
-                        </div>                        
-                    </table>
-                </div>
-
-            </div>
-
+            <QuestionGroups :qs="f" :keys="fKeys" :classes="'bg-findable text-findable'" @set-explanation="setExplanation" @set-explanation-flag="(b) => explanationFlag = b" @set-score="setScore"/>
+            <h3 class="text-6xl font-bold text-accessible pb-4">Accessibility</h3>
+            <QuestionGroups :qs="a" :keys="aKeys" :classes="'bg-accessible text-accessible'" @set-explanation="setExplanation" @set-explanation-flag="(b) => explanationFlag = b" @set-score="setScore"/>
             <h3 class="text-6xl font-bold text-interopereable pb-4">Interoperability</h3>
-            <div v-for="sub in iKeys" :key='sub' > <!-- sub group -->
-                <div class="bg-interopereable text-white rounded-t-md w-fit pl-4 pr-4 ml-12 flex justify-center"> <!-- sub group tag -->
-                        {{ sub }}
-                </div>
-                <div class="bg-white shadow-xl p-4 rounded-2xl mb-6">
-                    <table class="table-auto">
-                        <div>
-                            <div></div><div class="w-8">1</div><div class="w-8">0.5</div><div class="w-8">0</div><div class="w-8">n/a</div>
-                        </div>
-                        <div v-for="q in filterQ(i, sub)" :key='q.name'><!-- question box -->
-                            <div>
-                                <div class="rounded bg-interopereable bg-opacity-25 text-interopereable w-fit p-1 pl-2 pr-2">{{ q.priority }}</div> <!-- priority tag -->
-                                <button @click="loadExplanation(q)"> {{ q.question }}</button> <!-- short description -->
-                            </div>
-                            <div class="text-center">
-                                <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="" @click="setScore(q, 'success')">
-                            </div>
-                            <div class="text-center">
-                                <input :id="q.name + '-radio-2'" type="radio" value="0.5" :name="q.name" class="" @click="setScore(q, 'warnings')">
-                            </div>
-                            <div class="text-center">
-                                <input :id="q.name + '-radio-3'" type="radio" value="0" :name="q.name" class="" @click="setScore(q, 'failed')">
-                            </div>
-                            <div class="text-center">
-                                <input :id="q.name + '-radio-4'" type="radio" value="na" :name="q.name" class="" @click="setScore(q, 'not_applicable')">
-                            </div>  
-                        </div>                        
-                    </table>
-                </div>
-
-            </div>
-            
+            <QuestionGroups :qs="i" :keys="iKeys" :classes="'bg-interopereable text-interopereable'" @set-explanation="setExplanation" @set-explanation-flag="(b) => explanationFlag = b" @set-score="setScore"/>
             <h3 class="text-6xl font-bold text-reuseable pb-4">Reusability</h3>
-            <div v-for="sub in rKeys" :key='sub' > <!-- sub group -->
-                <div class="bg-reuseable text-white rounded-t-md w-fit pl-4 pr-4 ml-12 flex justify-center"> <!-- sub group tag -->
-                        {{ sub }}
-                </div>
-                <div class="bg-white shadow-xl p-4 rounded-2xl mb-6">
-                    <table class="table-auto">
-                        <div>
-                            <div></div><div class="w-8">1</div><div class="w-8">0.5</div><div class="w-8">0</div><div class="w-8">n/a</div>
-                        </div>
-                        <div v-for="q in filterQ(r, sub)" :key='q.name'><!-- question box -->
-                            <div>
-                                <div class="rounded bg-reuseable bg-opacity-25 text-reuseable w-fit p-1 pl-2 pr-2">{{ q.priority }}</div> <!-- priority tag -->
-                                <button @click="loadExplanation(q)"> {{ q.question }}</button> <!-- short description -->
-                            </div>
-                            <div class="text-center">
-                                <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="" @click="setScore(q, 'success')">
-                            </div>
-                            <div class="text-center">
-                                <input :id="q.name + '-radio-2'" type="radio" value="0.5" :name="q.name" class="" @click="setScore(q, 'warnings')">
-                            </div>
-                            <div class="text-center">
-                                <input :id="q.name + '-radio-3'" type="radio" value="0" :name="q.name" class="" @click="setScore(q, 'failed')">
-                            </div>
-                            <div class="text-center">
-                                <input :id="q.name + '-radio-4'" type="radio" value="na" :name="q.name" class="" @click="setScore(q, 'not_applicable')">
-                            </div>  
-                        </div>                        
-                    </table>
-                </div>
-
-            </div>
+            <QuestionGroups :qs="r" :keys="rKeys" :classes="'bg-reuseable text-reuseable'" @set-explanation="setExplanation" @set-explanation-flag="(b) => explanationFlag = b" @set-score="setScore"/>
         </div>
     </div>
-    <div class="w-1/4 bg-white text-black border-light-stroke border-l-2 h-screen sticky top-0"> <!-- score and explenation block -->
-        <div> <!-- sorce -->
-            <h3>Score</h3>
-            <div class="w-full container relative h-72  border-light-stroke border-b-2"> <!-- tacho -->
-                <img src="@/assets/tacho_ring.svg" class="absolute  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 scale-75"> <!-- score tacho -->                               
-                <img  class="absolute top-1/2 left-1/2 rotateNeedle scale-75" @click="rotateNeedle" :style="{transform: `translate(-50%, -50%) rotate(${score * 2.6 - 130}deg) scale(75%)` }" id="needle" src="@/assets/tacho_needle.svg"> <!-- score needle --> <!-- :class="`rotate-[${score * 2.6 - 130}deg]` -->
-                <div class="absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">{{ score }}%</div>
-            </div>
-            <!-- <button class="" @click="score = score + 20">CHECK</button> -->
-
+    <div class="flex flex-col w-1/4 bg-white text-black border-light-stroke border-l-2  h-screen sticky top-0"> <!-- score and explenation block -->
+        <div class="flex flex-col flex-wrap h-2/5  border-light-stroke border-b-2"> <!-- sorce -->
+            <div class="h-full w-1/2"><TachoScore :title="'score'" :score="score.score_all"/></div>
+            <div class="h-1/5 w-1/2"><TachoScore :title="'essential'" :score="score.score_all_essential"/></div>
+            <div  class="h-1/5 w-1/2"><TachoScore :title="'non essential'" :score="score.score_all_nonessential"/></div>
+            <div  class="h-1/5 w-1/2"><TachoScore :title="'applicable'" :score="score.score_applicable_all"/></div>
+            <div class="h-1/5 w-1/2"><TachoScore :title="'applicable essential'" :score="score.score_applicable_essential"/></div>
+            <div  class="h-1/5 w-1/2"><TachoScore :title="'applicable non essential'" :score="score.score_applicable_nonessential"/></div>
         </div>
         <div v-if="explanationFlag"> <!--  -->
             <h3> {{ explanation.name }}</h3><span class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2"> {{ explanation.priority }}</span>
@@ -161,140 +33,290 @@
             <div class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2">Assesment details</div>
             <p>{{ explanation.description }}</p>
         </div>
-        <div v-else>
+        <div v-else class="text-center pt-6">
             Select an indicator to see its description here.
         </div>
     </div>
+    <div class="fixed h left-0 top-1/2 transform -rotate-90 -translate-x-1/2">
+        <button class="bg-findable text-white rounded rounded-t-none pb-2 px-4  transform translate-y-1/2 translate-x-1/2 whitespace-nowrap" @click="saveSession">Save session</button>
+        <button class="bg-findable text-white rounded rounded-t-none pb-2 px-4  transform translate-y-1/2 translate-x-1/2 whitespace-nowrap ml-0" @click="copyID">Copy session ID</button>
+    </div>
+    <Transition>
+        <div v-if="!hiddenModal" class="absolute bottom-10 left-1/2 bg-findable border-white border-2 rounded-lg text-white p-2 modal modal-open">
+            <div class="modal-box relative p-5">
+                <h1>Session ID was copied to clipboard.</h1>
+                <label class="btn btn-sm btn-circle absolute right-1 top-1">✕</label>
+            </div>
+        </div>
+    </Transition>
 </div>
+
+
+
+
 
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import axios from 'axios';
+import axios, { type AxiosResponse } from 'axios';
+import QuestionGroups from './QuestionGroups.vue';
+import TachoScore from './TachoScore.vue';
 
 export default defineComponent ({
     props: {
-        sessionStart: Object
+        sessionStart: Object,
+        backend: {
+            type: String,
+            required: true
+        },
+        header: String,
+        loadSessionId: String,
+        loadLocalSession: Object
     },
-    data(){
+    data() {
         return {
-            fKeys:  [] as string[],
-            aKeys:  [] as string[],
-            iKeys:  [] as string[],
-            rKeys:  [] as string[],
-            f: [] as { group: string, sub_group: string, name: string, priority: string, question: string, short: string, description: string }[],
-            a: [] as { group: string, sub_group: string, name: string, priority: string, question: string, short: string, description: string }[],
-            i: [] as { group: string, sub_group: string, name: string, priority: string, question: string, short: string, description: string }[],
-            r: [] as { group: string, sub_group: string, name: string, priority: string, question: string, short: string, description: string }[],
+            fKeys: [] as string[],
+            aKeys: [] as string[],
+            iKeys: [] as string[],
+            rKeys: [] as string[],
+            f: [] as {
+                group: string;
+                sub_group: string;
+                name: string;
+                priority: string;
+                question: string;
+                short: string;
+                description: string;
+                status: string;
+                disabled: boolean
+            }[],
+            a: [] as {
+                group: string;
+                sub_group: string;
+                name: string;
+                priority: string;
+                question: string;
+                short: string;
+                description: string;
+                status: string;
+                disabled: boolean
+            }[],
+            i: [] as {
+                group: string;
+                sub_group: string;
+                name: string;
+                priority: string;
+                question: string;
+                short: string;
+                description: string;
+                status: string;
+                disabled: boolean
+            }[],
+            r: [] as {
+                group: string;
+                sub_group: string;
+                name: string;
+                priority: string;
+                question: string;
+                short: string;
+                description: string;
+                status: string;
+                disabled: boolean
+            }[],
             explanationFlag: false,
-            explanation: {} as { group: string; sub_group: string; name: string, priority: string, question: string, short: string, description: string},
-            score: 0,
-            sessionId: "",
-            backend: "http://localhost:8000"
-        }
-    },
-    mounted(){
-        console.debug("!!!!!!!!!!!!");
-        console.log(this.sessionStart);
+            explanation: {} as {
+                group: string;
+                sub_group: string;
+                name: string;
+                priority: string;
+                question: string;
+                short: string;
+                description: string;
+            },
+            score: {
+                score_all: 0,
+                score_all_essential: 0,
+                score_all_nonessential: 0,
+                score_applicable_all: 0,
+                score_applicable_essential: 0,
+                score_applicable_nonessential: 0
 
+            },
+            sessionId: "",
+            hiddenModal: true
+        };
+    },
+    mounted() {
+        console.log(this.sessionStart, this.loadSessionId, this.loadLocalSession);
         //start session
+        if(this.loadSessionId != ""){
+            axios
+                .get(this.backend + '/session/' + this.loadSessionId)
+                .then( response => {
+                    this.createSession(response);
+                })
+        }
+        else if(this.loadLocalSession != undefined){
+            //alert("guck ma");
+            axios.post(this.backend + '/session/resume', this.loadLocalSession)
+                .then((response) => {
+                    this.createSession(response);
+                });
+        }
+        else
         axios
             .post(this.backend + "/session", this.sessionStart)
-            .then(response => {
-                    console.log(response);
-                    
-                    this.sessionId = response.data.id;
-                    let tasks: Record<string, { id: string, name: string, session_id: string, children: Object, priority: string, status: string, comment: string, disabled: boolean, score: number }> = {};;
-                    tasks = response.data.tasks;
-
-                    //this.questions = response.data;    
-                    console.log(tasks);
-
-                    for (const [id, task] of Object.entries(tasks)) {
-                        //console.log(id, task);
-                        if(task.disabled) continue;
-                        // session/{session_id}/tasks/{task_id}
-                        axios
-                            .get(this.backend + '/indicators/' + task.name)
-                            .then(r => {
-                                let q = r.data;
-                                q.taskId = id;
-                            
-                                if(q.group == 'F'){
-                                    this.f.push(q);
-                                    if(!this.fKeys.includes(q.sub_group)) this.fKeys.push(q.sub_group);
-                                } 
-                                else if(q.group == 'A'){
-                                    this.a.push(q);
-                                    if(!this.aKeys.includes(q.sub_group)) this.aKeys.push(q.sub_group);
-                                } 
-                                if(q.group == 'I'){
-                                    this.i.push(q);
-                                    if(!this.iKeys.includes(q.sub_group)) this.iKeys.push(q.sub_group);
-                                } 
-                                if(q.group == 'R') {
-                                    this.r.push(q);
-                                    if(!this.rKeys.includes(q.sub_group)) this.rKeys.push(q.sub_group);
-                                } 
-                            })
-                    }
-                    console.log(this.f, this.a);
-                });
+            .then( response => { 
+                this.createSession(response);
+            });
     },
     watch: {
-        score (newScore, oldScore){
-            console.debug(newScore, oldScore);
-/*             let deg = -130 + newScore *2.6;
 
-
-            let needle = document.getElementById("needle");
-            if(needle != null){
-                console.debug(deg);
-                //needle.style.transform-origin = "center";
-                needle.style.transform = "rotate(" + deg + "deg)";
-            }  */
-        }
     },
     methods: {
-        filterQ(qS: { group: string; sub_group: string; name: string; priority: string; question: string; short: string; description: string; }[], sub: string){
-            let arr: { group: string; sub_group: string; name: string; priority: string; question: string; short: string; description: string; }[] = [];
-            qS.forEach(q => {
-                if(q.sub_group == sub) arr.push(q);
-            });   
-            return arr;        
+        createSession(response: AxiosResponse<any, any>) {
+                console.log(response);
+                this.sessionId = response.data.id;
+                let tasks: Record<string, {
+                    id: string;
+                    name: string;
+                    session_id: string;
+                    children: Object;
+                    priority: string;
+                    status: string;
+                    comment: string;
+                    disabled: boolean;
+                    score: number;
+                }> = {};
 
-        },
-         rotateNeedle(){
-
-
-        },
-        loadExplanation(q: { group: string; sub_group: string; name: string; priority: string; question: string; short: string; description: string; }){
-            this.explanation = q;
-            this.explanationFlag = true;
-            console.debug(this.explanation);
-        },
-        setScore(q: { group?: string; sub_group?: string; name?: string; priority?: string; question?: string; short?: string; description?: string; taskId?: string; }, score: string){
-            //file://cors.redoc.ly/session/{session_id}/tasks/{task_id}
+                tasks = response.data.tasks;
+                //this.questions = response.data;    
+                console.log(tasks);
+                for (const [id, task] of Object.entries(tasks)) {
+                    //console.log(id, task);
+                    if (task.disabled)
+                        //continue;
+                        console.debug("disabled: ", task);
+                    // session/{session_id}/tasks/{task_id}
+                    axios
+                        .get(this.backend + "/indicators/" + task.name)
+                        .then(r => {
+                            let q = r.data;
+                            q.taskId = id;
+                            q.status = task.status;
+                            q.disabled = task.disabled;
+                            if (q.group == "F") {
+                                this.f.push(q);
+                                if (!this.fKeys.includes(q.sub_group))
+                                    this.fKeys.push(q.sub_group);
+                            }
+                            else if (q.group == "A") {
+                                this.a.push(q);
+                                if (!this.aKeys.includes(q.sub_group))
+                                    this.aKeys.push(q.sub_group);
+                            }
+                            if (q.group == "I") {
+                                this.i.push(q);
+                                if (!this.iKeys.includes(q.sub_group))
+                                    this.iKeys.push(q.sub_group);
+                            }
+                            if (q.group == "R") {
+                                this.r.push(q);
+                                if (!this.rKeys.includes(q.sub_group))
+                                    this.rKeys.push(q.sub_group);
+                            }
+                    });
+                }
             
+            
+                this.score.score_all = Math.floor(response.data.score_all * 100);
+                this.score.score_all_essential = Math.floor(response.data.score_all_essential * 100);
+                this.score.score_all_nonessential = Math.floor(response.data.score_all_nonessential * 100);
+                this.score.score_applicable_all = Math.floor(response.data.score_applicable_all * 100);
+                this.score.score_applicable_essential = Math.floor(response.data.score_applicable_essential * 100);
+                this.score.score_applicable_nonessential = Math.floor(response.data.score_applicable_nonessential * 100);
+        },
+        setScore(q: {
+            group?: string;
+            sub_group?: string;
+            name?: string;
+            priority?: string;
+            question?: string;
+            short?: string;
+            description?: string;
+            taskId?: string;
+        }, score: string) {
+            //file://cors.redoc.ly/session/{session_id}/tasks/{task_id}
             console.debug(q);
-            let body = {"status": score}
-            axios.patch(this.backend + '/session/' + this.sessionId + "/tasks/" + q.taskId, body)
+            let body = { "status": score };
+            axios.patch(this.backend + "/session/" + this.sessionId + "/tasks/" + q.taskId, body)
                 .then(response => {
-                    console.log(response);
-                    let r = response.data;
-                    this.score = Math.floor(r.score_all * 100);
-                })
+                console.log(response);
+                let r = response.data;
+                this.score.score_all = Math.floor(r.score_all * 100);
+                this.score.score_all_essential = Math.floor(r.score_all_essential * 100);
+                this.score.score_all_nonessential = Math.floor(r.score_all_nonessential * 100);
+                this.score.score_applicable_all = Math.floor(r.score_applicable_all * 100);
+                this.score.score_applicable_essential = Math.floor(r.score_applicable_essential * 100);
+                this.score.score_applicable_nonessential = Math.floor(r.score_applicable_nonessential * 100);
+
+            })
                 .catch(error => {
-                    console.error(error.toJSON());
-                });
+                console.error(error.toJSON());
+            });
+        },
+        setExplanation(q: {
+            group: string;
+            sub_group: string;
+            name: string;
+            priority: string;
+            question: string;
+            short: string;
+            description: string;
+            taskId?: string;
+        }){
+            this.explanation.group = q.group;
+            this.explanation.sub_group = q.sub_group;
+            this.explanation.name = q.name;
+            this.explanation.priority = q.priority;
+            this.explanation.question = q.question;
+            this.explanation.short = q.short;
+            this.explanation.description = q.description;
+
+        },
+        saveSession(){
+            axios
+                .get(this.backend + '/session/' + this.sessionId)
+                .then((response) => {
+                    console.log('Fair-Combine-' + this.sessionId + '.json', response);
+                    const json = JSON.stringify(response.data);
+                    const url = window.URL.createObjectURL(new Blob([json]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'Fair-Combine-' + this.sessionId + '.json');
+                    document.body.appendChild(link);
+                    link.click();
+                })
+        },
+        copyID(){
+            navigator.clipboard.writeText(this.sessionId);
+            this.hiddenModal = false;
+            setTimeout(() => this.hiddenModal = true, 2000)
         }
-    }
+    },
+    components: { QuestionGroups, TachoScore }
 })
 </script>
 
 <style>
-/* .rotateNeedle {
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
 
-} */
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 </style>
