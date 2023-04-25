@@ -124,9 +124,17 @@
         </div>
         <div v-else-if="sessionInput.subject_type == 'manual'" class="basis-1/2 p-5 flex justify-center items-center">
             <ol class="list-none"> 
-                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">1</span><span> Describe your digital object</span></li>
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">1</span> Describe your digital object</li>
                 <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Start"</li>
                 <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Do the self assessment</li>
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">4</span> Get your assesment results</li>
+            </ol>
+        </div>
+        <div v-else-if="sessionInput.subject_type == 'load'" class="basis-1/2 p-5 flex justify-center items-center">
+            <ol class="list-none"> 
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">1</span> Enter your session ID or select your session file</li>
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Load"</li>
+                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Continue the self assessment</li>
                 <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">4</span> Get your assesment results</li>
             </ol>
         </div>
