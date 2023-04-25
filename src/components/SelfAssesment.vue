@@ -41,17 +41,17 @@
         <button class="bg-findable text-white rounded rounded-t-none pb-2 px-4  transform translate-y-1/2 translate-x-1/2 whitespace-nowrap" @click="saveSession">Save session</button>
         <button class="bg-findable text-white rounded rounded-t-none pb-2 px-4  transform translate-y-1/2 translate-x-1/2 whitespace-nowrap ml-0" @click="copyID">Copy session ID</button>
     </div>
-    <Transition>
-        <div v-if="!hiddenModal" class="absolute bottom-10 left-1/2 bg-findable border-white border-2 rounded-lg text-white p-2 modal modal-open">
+
+</div>
+
+<Transition>
+        <div v-if="!hiddenModal" class="fixed bottom-10 left-1/2 z-50 bg-findable border-white border-2 rounded-lg text-white p-2 modal modal-open transform -translate-x-1/2">
             <div class="modal-box relative p-5">
                 <h1>Session ID was copied to clipboard.</h1>
                 <label class="btn btn-sm btn-circle absolute right-1 top-1">✕</label>
             </div>
         </div>
-    </Transition>
-</div>
-
-
+</Transition>
 
 
 
@@ -72,7 +72,8 @@ export default defineComponent ({
         },
         header: String,
         loadSessionId: String,
-        loadLocalSession: Object
+        loadLocalSession: Object,
+        mode: String
     },
     data() {
         return {
@@ -148,28 +149,37 @@ export default defineComponent ({
         };
     },
     mounted() {
-        console.log(this.sessionStart, this.loadSessionId, this.loadLocalSession);
+
+        console.debug(this.mode);
+
         //start session
-        if(this.loadSessionId != ""){
+        if(this.mode == 'loadRemoteSession'){
+            console.debug("load remote session");
             axios
                 .get(this.backend + '/session/' + this.loadSessionId)
                 .then( response => {
                     this.createSession(response);
                 })
         }
-        else if(this.loadLocalSession != undefined){
-            //alert("guck ma");
+        else if(this.mode == 'loadLocalSession'){
+            console.debug("load local session");
             axios.post(this.backend + '/session/resume', this.loadLocalSession)
                 .then((response) => {
                     this.createSession(response);
                 });
         }
-        else
-        axios
-            .post(this.backend + "/session", this.sessionStart)
-            .then( response => { 
-                this.createSession(response);
+        else if(this.mode == 'newSession'){
+            
+            console.debug(this.sessionStart);
+            console.debug("new Session");
+        
+            axios
+                .post(this.backend + "/session", this.sessionStart)
+                .then( response => { 
+                    this.createSession(response);
             });
+        }
+            
     },
     watch: {
 

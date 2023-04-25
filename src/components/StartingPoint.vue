@@ -155,7 +155,7 @@
 import axios from 'axios';
 import { defineComponent } from 'vue';
 export default defineComponent ({
-    emits: ['started', 'loadSessionId', 'loadLocalSession'],
+    emits: ['newSession', 'loadSessionId', 'loadLocalSession'],
     props: ['backend', 'headers'],
     data(){
         return{
@@ -208,7 +208,7 @@ export default defineComponent ({
             //alert(this.sessionInput.path);
 
             console.log(this.sessionInput);
-            this.$emit('started', this.sessionInput);
+            this.$emit('newSession', this.sessionInput);
         },
         fileChange: function(event: any){
             const file = event.target.files[0];
