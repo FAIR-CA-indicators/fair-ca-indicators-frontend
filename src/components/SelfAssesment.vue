@@ -28,7 +28,7 @@
                 <span class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2 ml-2 "> {{ explanation.priority }}</span>
             </div>
             <div>
-                <div class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2 text-xs"> Sub-principle </div>
+                <div class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2 text-xs">Sub-principle</div>
                 <p>{{ explanation.sub_group }}</p>
             </div>
             <div>
