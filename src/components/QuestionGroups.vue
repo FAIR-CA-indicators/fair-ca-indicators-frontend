@@ -11,7 +11,7 @@
             <div v-for="q in filterQ(qs, sub)" :key='q.name' class="grid grid-cols-12 gap-4 mb-4"><!-- question box -->
                 <div class="col-span-7">
                     <div class="rounded bg-opacity-25 w-fit p-1 pl-2 pr-2" :class="classes">{{ q.priority }}</div> <!-- priority tag -->
-                    <div @click="loadExplanation(q)" class="flex flex-row"><img v-if="q.status != 'queued'" src="@/assets/auto-bot.svg" class="h-full my-auto"/><span class="ml-4">{{ q.question }}</span></div> <!-- short description -->
+                    <div class="flex flex-row pt-2"><img v-if="q.status != 'queued'" src="@/assets/auto-bot.svg" class="h-full my-auto"/><span class="ml-4 cursor-pointer" @click="loadExplanation(q)">{{ q.question }}</span></div> <!-- short description -->
                 </div>
                 <div class="m-auto"> 
                     <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="" :checked="q.status == 'success'" :disabled="q.disabled" @click="$emit('setScore', q, 'success')">

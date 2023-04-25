@@ -22,16 +22,27 @@
             <div class="h-1/5 w-1/2"><TachoScore :title="'applicable essential'" :score="score.score_applicable_essential"/></div>
             <div  class="h-1/5 w-1/2"><TachoScore :title="'applicable non essential'" :score="score.score_applicable_nonessential"/></div>
         </div>
-        <div v-if="explanationFlag"> <!--  -->
-            <h3> {{ explanation.name }}</h3><span class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2"> {{ explanation.priority }}</span>
-            <div class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2"> Sub-principle </div>
-            <p>{{ explanation.sub_group }}</p>
-            <div class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2">Indicator</div>
-            <p>{{ explanation.question }}</p>
-            <div class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2">Description</div>
-            <p>{{ explanation.short }}</p>
-            <div class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2">Assesment details</div>
-            <p>{{ explanation.description }}</p>
+        <div v-if="explanationFlag" class="p-4 flex flex-col space-y-4"> <!--  -->
+            <div class="flex flex-row">
+                <h3 class="font-semibold my-auto"> {{ explanation.name }}</h3>
+                <span class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2 ml-2 "> {{ explanation.priority }}</span>
+            </div>
+            <div>
+                <div class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2 text-xs">Sub-principle</div>
+                <p>{{ explanation.sub_group }}</p>
+            </div>
+            <div>
+                <div class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2 text-xs">Indicator</div>
+                <p>{{ explanation.question }}</p>
+            </div>
+            <div>
+                <div class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2 text-xs">Description</div>
+                <p>{{ explanation.short }}</p>
+            </div>
+            <div>
+                <div class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2 text-xs">Assesment details</div>
+                <p>{{ explanation.description }}</p>
+            </div>
         </div>
         <div v-else class="text-center pt-6">
             Select an indicator to see its description here.
@@ -216,23 +227,68 @@ export default defineComponent ({
                             q.taskId = id;
                             q.status = task.status;
                             q.disabled = task.disabled;
+                        
                             if (q.group == "F") {
                                 this.f.push(q);
+                                for(const [childID, childTask] of Object.entries(task.children)){
+                                    axios
+                                        .get(this.backend + "/indicators/" + childTask.name)
+                                        .then(childR => {
+                                            let childQ = childR.data;
+                                            childQ.taskId = childID;
+                                            childQ.status = task.status;
+                                            childQ.disabled = task.disabled;
+                                            this.f.push(childQ);
+                                        })
+                                }
                                 if (!this.fKeys.includes(q.sub_group))
                                     this.fKeys.push(q.sub_group);
                             }
                             else if (q.group == "A") {
                                 this.a.push(q);
+                                for(const [childID, childTask] of Object.entries(task.children)){
+                                    axios
+                                        .get(this.backend + "/indicators/" + childTask.name)
+                                        .then(childR => {
+                                            let childQ = childR.data;
+                                            childQ.taskId = childID;
+                                            childQ.status = task.status;
+                                            childQ.disabled = task.disabled;
+                                            this.a.push(childQ);
+                                        })
+                                }
                                 if (!this.aKeys.includes(q.sub_group))
                                     this.aKeys.push(q.sub_group);
                             }
                             if (q.group == "I") {
                                 this.i.push(q);
+                                for(const [childID, childTask] of Object.entries(task.children)){
+                                    axios
+                                        .get(this.backend + "/indicators/" + childTask.name)
+                                        .then(childR => {
+                                            let childQ = childR.data;
+                                            childQ.taskId = childID;
+                                            childQ.status = task.status;
+                                            childQ.disabled = task.disabled;
+                                            this.i.push(childQ);
+                                        })
+                                }
                                 if (!this.iKeys.includes(q.sub_group))
                                     this.iKeys.push(q.sub_group);
                             }
                             if (q.group == "R") {
                                 this.r.push(q);
+                                for(const [childID, childTask] of Object.entries(task.children)){
+                                    axios
+                                        .get(this.backend + "/indicators/" + childTask.name)
+                                        .then(childR => {
+                                            let childQ = childR.data;
+                                            childQ.taskId = childID;
+                                            childQ.status = task.status;
+                                            childQ.disabled = task.disabled;
+                                            this.r.push(childQ);
+                                        })
+                                }
                                 if (!this.rKeys.includes(q.sub_group))
                                     this.rKeys.push(q.sub_group);
                             }

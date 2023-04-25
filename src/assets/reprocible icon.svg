@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="124.96094"
+   height="116.54102"
+   viewBox="0 0 124.96094 116.54102"
+   fill="none"
+   version="1.1"
+   id="svg15148"
+   sodipodi:docname="reprocible icon.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview15150"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="83.96893"
+     inkscape:cy="85.206367"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg15148" />
+  <mask
+     id="mask0_443_947"
+     maskUnits="userSpaceOnUse"
+     x="0"
+     y="30"
+     width="159"
+     height="111">
+    <rect
+       y="30.0261"
+       width="159"
+       height="110.419"
+       fill="url(#pattern0)"
+       id="rect15135"
+       x="0" />
+  </mask>
+  <defs
+     id="defs15146">
+    <pattern
+       id="pattern0"
+       patternContentUnits="objectBoundingBox"
+       width="1"
+       height="1">
+      <use
+         xlink:href="#image0_443_947"
+         transform="matrix(0.00694458 0 0 0.01 0.152771 0)"
+         id="use15142" />
+    </pattern>
+    <image
+       id="image0_443_947"
+       width="100"
+       height="100"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAADnElEQVR4nO2dTYhOURjHf4MwiQYhNTVhMYosKGwskDLErDFRUj4WkygWhCywsZsoC2NkwbCRsjBpyFhMEyUWWFhoWPkoFr4aR1dHMe45M4P3vs+5/r96NtM7M89zfu/5uPftPi8IIYQQQgghhBBCCCFCzAJWA9uB/UZjM7AEqCmjxtFAE9ABvABcQvEU2FUWMbVAK/DcwMC6v4wbwBQSZi3wzMBAun8Yt4CxJMZ44JSBwXMVijYSog64Y2DQXAXjK7CKBJgMPBhhca+BR8BNoCuhOGN9k8+WqbvDEPARuARs9LNJVIjTQ4gYADqB2ZVKQPx6morJeAUs14AVd50RO9o+AeYM82+N8vvQ5AQiq9skrUPMjJiMCUALcBnoB74YOEG5EcRboBc4CDRigDGRK/CByDI12t/DemlgUN0/iqzedqCeKrImkuC5wO9MBK4aGEBXociO8SuoEucDSX0AGnJeP+kPrlNcgvEZaK6Cj+/rfl5CFwMb9jUDg+UKivfAgqI/zwglk130DWa7gUFyBcc9/0YshKbIfZ66nNPUyyFOK8f92rsokVgKbPOnrJiUTUUJ2RnZ1AbTEkn4PjCTdKkBDkXq6ykqkX2BBB7mvPZKZGakLONnOiLH4RkUwOHIBzjD3fyPUR4a/HKdV+f6IhI4Evjn3TkXgaEr8JWUi8eBOndYEjI1sr7Op1zcDtSZ7TFmhEyLCJlHuegO1JmNVcWRkN+REGNIiDEkxBgSYgwJMYaEGENCjCEhxpAQY0iIMSTEGBJiDAkxhoQYQ0KMISHGkBBjSIgxJMQYEmIMCTGGhBhDQowhIcaQEGNIiDEkxBgSYgwJMYaEGENCjFFVIQf0wI4tIVskxJaQrOOzHmkzJKTGd3zWM4ZGhIS6OeihT6onJJsl1yXEzgzB90LPujdohmBDCL4XeptvLaEli+oL+UHWY/HsoJ/VRhoHLKZc9AXq3FvNpPLab78NJJr1myoL43wXubw6N2CMUJOvXuv900fA1shKkDU8M8XBSLKFNGapMHN947a8+votvukafSOvkJSOQBfTFJapbGa8idR2EqO0R5J2/oT2xJ/SuhKIvsie8SPeAdMxSr1vPe7+o9iNcZYBnwwMlCsgOi3uHXk0D2Oqu8Tjgv+Cm2RY4JsMu5LFuxSWqRCjfJPhniFOYC6B6PenKbMb+EjJ+tqu87fzjwInEog9vqX6wlT2CiGEEEIIIYQQQgghqADfAMiVASEz8jKLAAAAAElFTkSuQmCC" />
+  </defs>
+  <path
+     id="rect2605-2-4-6"
+     style="fill:#5732a7;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:13.228;stroke-dasharray:none;stroke-opacity:1"
+     d="M 10.667969,0 C 4.757589,0 0,4.757589 0,10.667969 V 91.871098 C 0,97.566438 4.421292,102.18074 10.03125,102.50977 10.0188,102.29769 10,102.0864 10,101.8711 V 20.667969 C 10,14.757589 14.757589,10 20.667969,10 h 89.625001 c 0.21503,0 0.42491,0.01883 0.63672,0.03125 C 110.60066,4.421292 105.98832,0 100.29297,0 Z" />
+  <path
+     id="rect2605-2"
+     style="fill:#5732a7;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:13.228;stroke-dasharray:none;stroke-opacity:1"
+     d="M 24.667969,14 C 18.757589,14 14,18.757589 14,24.667969 V 105.8711 c 0,5.91038 4.757589,10.66992 10.667969,10.66992 h 89.625001 c 5.91038,0 10.66797,-4.75954 10.66797,-10.66992 V 24.667969 C 124.96094,18.757589 120.20335,14 114.29297,14 Z M 35.490235,24 H 103.4707 c 5.91038,0 10.66993,4.757589 10.66993,10.667969 v 61.203129 c 0,5.910382 -4.75955,10.669922 -10.66993,10.669922 H 35.490235 c -5.91038,0 -10.669922,-4.75954 -10.669922,-10.669922 V 34.667969 C 24.820313,28.757589 29.579855,24 35.490235,24 Z" />
+</svg>

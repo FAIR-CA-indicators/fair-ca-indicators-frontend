@@ -104,49 +104,65 @@
             </div>
 
         </div>
-        <div v-if="sessionInput.subject_type == 'url'" class="basis-1/2 p-5 ">
+        <div v-if="sessionInput.subject_type == 'url'" class="basis-1/2 p-5 text-xl">
             <ol class="list-none"> 
-                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">1</span><span> Enter the URL of a combine archive </span></li>
-                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Start"</li>
-                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Automatic tests start</li>
-                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">4</span> Respond to a few questions</li>
-                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">5</span> Get your assesment results</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">1</span><span> Enter the URL of a combine archive </span></li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Start"</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Automatic tests start</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">4</span> Respond to a few questions</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">5</span> Get your assesment results</li>
             </ol>
         </div>
-        <div v-else-if="sessionInput.subject_type == 'file'" class="basis-1/2 p-5 flex justify-center items-center">
+        <div v-else-if="sessionInput.subject_type == 'file'" class="basis-1/2 p-5 flex justify-center items-center text-xl">
             <ol class="list-none"> 
-                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">1</span><span> Select your local modal or archive </span></li>
-                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Start"</li>
-                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Automatic tests start</li>
-                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">4</span> Respond to a few questions</li>
-                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">5</span> Get your assesment results</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">1</span><span> Select your local modal or archive </span></li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Start"</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Automatic tests start</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">4</span> Respond to a few questions</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">5</span> Get your assesment results</li>
             </ol>
         </div>
-        <div v-else-if="sessionInput.subject_type == 'manual'" class="basis-1/2 p-5 flex justify-center items-center">
+        <div v-else-if="sessionInput.subject_type == 'manual'" class="basis-1/2 p-5 flex justify-center items-center text-xl">
             <ol class="list-none"> 
-                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">1</span><span> Describe your digital object</span></li>
-                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Start"</li>
-                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Do the self assessment</li>
-                <li class="flex mb-4"><span class="w-6 h-6 rounded-full border-2 mr-2 flex justify-center items-center">4</span> Get your assesment results</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">1</span> Describe your digital object</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Start"</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Do the self assessment</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">4</span> Get your assesment results</li>
+            </ol>
+        </div>
+        <div v-else-if="sessionInput.subject_type == 'load'" class="basis-1/2 p-5 flex justify-center items-center text-xl">
+            <ol class="list-none"> 
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">1</span> Enter your session ID or select your session file</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Load"</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Continue the self assessment</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">4</span> Get your assesment results</li>
             </ol>
         </div>
     </div>
-    <div class="bg-white text-findable p-10 flex flex-wrap w-full">
-        <div class="basis-1/2">
-            <span class="text-6xl font-bold">Findable</span>
-            <p>The first step in (re)using data is to find them. Metadata and data should be easy to find for both humans and computers. Machine-readable metadata are essential for automatic discovery of datasets and services, so this is an essential component of the FAIRification process.</p>
+    <div class="bg-white text-findable p-10 flex flex-wrap w-full gap-y-8 ">
+        <div class="flex justify-center basis-1/2 py-auto">
+            <div class="bg-light-background rounded-lg drop-shadow-md w-fit p-10 ">
+                <div class="flex flex-row text-2xl font-bold items-center"><span class="">Findable</span><img class="h-24 ml-auto" src="@/assets/Zoom Out.svg"></div>
+                <p class="max-w-lg pt-6">The first step in (re)using data is to find them. Metadata and data should be easy to find for both humans and computers. Machine-readable metadata are essential for automatic discovery of datasets and services, so this is an essential component of the FAIRification process.</p>
+            </div>
         </div>
-        <div class="basis-1/2">
-            <span class="text-6xl font-bold">Accessibility</span>
-            <p>Once the user finds the required data, she/he/they need to know how they can be accessed, possibly including authentication and authorisation.</p>
+        <div class="flex justify-center basis-1/2">
+            <div class="bg-light-background rounded-lg drop-shadow-md w-fit p-10">
+                <div class="flex flex-row text-2xl font-bold items-center"><span class="">Accessibility</span><img class="h-24 ml-auto" src="@/assets/accessibility icon.svg"></div>
+                <p class="max-w-lg pt-6">Once the user finds the required data, she/he/they need to know how they can be accessed, possibly including authentication and authorisation.</p>
+            </div>
         </div>
-        <div class="basis-1/2">
-            <span class="text-6xl font-bold">Interoperable</span>
-            <p>The data usually need to be integrated with other data. In addition, the data need to interoperate with applications or workflows for analysis, storage, and processing.</p>
+        <div class="flex justify-center basis-1/2">
+            <div class="bg-light-background rounded-lg drop-shadow-md w-fit p-10">
+                <div class="flex flex-row text-2xl font-bold items-center"><span class="">Interoperable</span><img class="h-24 ml-auto" src="@/assets/interroperable icon.svg"></div>
+                <p class="max-w-lg pt-6">The data usually need to be integrated with other data. In addition, the data need to interoperate with applications or workflows for analysis, storage, and processing.</p>
+            </div>
         </div>
-        <div class="basis-1/2">
-            <span class="text-6xl font-bold">Reusable</span>
-            <p>The ultimate goal of FAIR is to optimise the reuse of data. To achieve this, metadata and data should be well-described so that they can be replicated and/or combined in different settings.</p>
+        <div class="flex justify-center basis-1/2">
+            <div class="bg-light-background rounded-lg drop-shadow-md w-fit p-10">
+                <div class="flex flex-row text-2xl font-bold items-center"><span class="">Reusable</span><img class="h-24 ml-auto" src="@/assets/reprocible icon.svg"></div>
+                <p class="max-w-lg pt-6">The ultimate goal of FAIR is to optimise the reuse of data. To achieve this, metadata and data should be well-described so that they can be replicated and/or combined in different settings.</p>
+            </div>
         </div>
     </div>
 </template>
