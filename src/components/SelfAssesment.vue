@@ -72,7 +72,8 @@ export default defineComponent ({
         },
         header: String,
         loadSessionId: String,
-        loadLocalSession: Object
+        loadLocalSession: Object,
+        mode: String
     },
     data() {
         return {
@@ -148,28 +149,37 @@ export default defineComponent ({
         };
     },
     mounted() {
-        console.log(this.sessionStart, this.loadSessionId, this.loadLocalSession);
+
+        console.debug(this.mode);
+
         //start session
-        if(this.loadSessionId != ""){
+        if(this.mode == 'loadRemoteSession'){
+            console.debug("load remote session");
             axios
                 .get(this.backend + '/session/' + this.loadSessionId)
                 .then( response => {
                     this.createSession(response);
                 })
         }
-        else if(this.loadLocalSession != undefined){
-            //alert("guck ma");
+        else if(this.mode == 'loadLocalSession'){
+            console.debug("load local session");
             axios.post(this.backend + '/session/resume', this.loadLocalSession)
                 .then((response) => {
                     this.createSession(response);
                 });
         }
-        else
-        axios
-            .post(this.backend + "/session", this.sessionStart)
-            .then( response => { 
-                this.createSession(response);
+        else if(this.mode == 'newSession'){
+            
+            console.debug(this.sessionStart);
+            console.debug("new Session");
+        
+            axios
+                .post(this.backend + "/session", this.sessionStart)
+                .then( response => { 
+                    this.createSession(response);
             });
+        }
+            
     },
     watch: {
 
