@@ -1,6 +1,6 @@
 <template>
-    <StartingPoint v-if="mode == 'start'" @new-session="newSession" @load-session-id="loadRemoteSession" @load-local-session="loadLocalSession" :backend="backend" />
-    <SelfAssesment v-else-if="mode == 'manual'" :loadSessionId="loadId" :loadLocalSession="localSession" :sessionStart="sessionInput" :backend="backend" :mode="sessionMode"/>
+    <StartingPoint v-if="mode == 'start'" @new-session="newSession" @load-session-id="loadRemoteSession" @load-local-session="loadLocalSession" />
+    <SelfAssesment v-else-if="mode == 'manual'" :loadSessionId="loadId" :loadLocalSession="localSession" :sessionStart="sessionInput" :backend="backend" :header="header" :mode="sessionMode"/>
 </template>
 
 <script lang="ts">
@@ -27,8 +27,10 @@ export default defineComponent ({
                 "is_pmr": boolean,
                 "subject_type": string
             },
-            backend: "http://localhost:8000",
-            header: null,
+            backend: "http://localhost:8000",   //backend url for local development
+            //backend: ,  //backend url for ngrok
+            //header: {},       // header for local development
+            header: {headers: {"ngrok-skip-browser-warning": 1}}, //header for ngrok
             loadId: "",
             localSession: Object,
             sessionMode: ''
