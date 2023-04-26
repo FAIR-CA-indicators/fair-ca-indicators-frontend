@@ -22,7 +22,7 @@
             <div class="h-1/5 w-1/2"><TachoScore :title="'applicable essential'" :score="score.score_applicable_essential"/></div>
             <div  class="h-1/5 w-1/2"><TachoScore :title="'applicable non essential'" :score="score.score_applicable_nonessential"/></div>
         </div>
-        <div v-if="explanationFlag" class="p-4 flex flex-col space-y-4"> <!--  -->
+        <div v-if="explanationFlag" class="p-4 flex flex-col space-y-4 overflow-y-auto"> <!--  -->
             <div class="flex flex-row">
                 <h3 class="font-semibold my-auto"> {{ explanation.name }}</h3>
                 <span class="rounded bg-findable bg-opacity-25 text-findable w-fit p-1 pl-2 pr-2 ml-2 "> {{ explanation.priority }}</span>
