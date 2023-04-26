@@ -81,7 +81,7 @@ export default defineComponent ({
             type: String,
             required: true
         },
-        header: String,
+        header: Object,
         loadSessionId: String,
         loadLocalSession: Object,
         mode: String
@@ -167,14 +167,15 @@ export default defineComponent ({
         if(this.mode == 'loadRemoteSession'){
             console.debug("load remote session");
             axios
-                .get(this.backend + '/session/' + this.loadSessionId)
+                .get(this.backend + '/session/' + this.loadSessionId, this.header)
                 .then( response => {
                     this.createSession(response);
                 })
         }
         else if(this.mode == 'loadLocalSession'){
             console.debug("load local session");
-            axios.post(this.backend + '/session/resume', this.loadLocalSession)
+            axios
+                .post(this.backend + '/session/resume', this.loadLocalSession, this.header)
                 .then((response) => {
                     this.createSession(response);
                 });
@@ -185,7 +186,7 @@ export default defineComponent ({
             console.debug("new Session");
         
             axios
-                .post(this.backend + "/session", this.sessionStart)
+                .post(this.backend + "/session", this.sessionStart, this.header)
                 .then( response => { 
                     this.createSession(response);
             });
@@ -221,7 +222,7 @@ export default defineComponent ({
                         console.debug("disabled: ", task);
                     // session/{session_id}/tasks/{task_id}
                     axios
-                        .get(this.backend + "/indicators/" + task.name)
+                        .get(this.backend + "/indicators/" + task.name, this.header)
                         .then(r => {
                             let q = r.data;
                             q.taskId = id;
@@ -232,7 +233,7 @@ export default defineComponent ({
                                 this.f.push(q);
                                 for(const [childID, childTask] of Object.entries(task.children)){
                                     axios
-                                        .get(this.backend + "/indicators/" + childTask.name)
+                                        .get(this.backend + "/indicators/" + childTask.name, this.header)
                                         .then(childR => {
                                             let childQ = childR.data;
                                             childQ.taskId = childID;
@@ -248,7 +249,7 @@ export default defineComponent ({
                                 this.a.push(q);
                                 for(const [childID, childTask] of Object.entries(task.children)){
                                     axios
-                                        .get(this.backend + "/indicators/" + childTask.name)
+                                        .get(this.backend + "/indicators/" + childTask.name, this.header)
                                         .then(childR => {
                                             let childQ = childR.data;
                                             childQ.taskId = childID;
@@ -264,7 +265,7 @@ export default defineComponent ({
                                 this.i.push(q);
                                 for(const [childID, childTask] of Object.entries(task.children)){
                                     axios
-                                        .get(this.backend + "/indicators/" + childTask.name)
+                                        .get(this.backend + "/indicators/" + childTask.name, this.header)
                                         .then(childR => {
                                             let childQ = childR.data;
                                             childQ.taskId = childID;
@@ -280,7 +281,7 @@ export default defineComponent ({
                                 this.r.push(q);
                                 for(const [childID, childTask] of Object.entries(task.children)){
                                     axios
-                                        .get(this.backend + "/indicators/" + childTask.name)
+                                        .get(this.backend + "/indicators/" + childTask.name, this.header)
                                         .then(childR => {
                                             let childQ = childR.data;
                                             childQ.taskId = childID;
@@ -294,7 +295,6 @@ export default defineComponent ({
                             }
                     });
                 }
-            
             
                 this.score.score_all = Math.floor(response.data.score_all * 100);
                 this.score.score_all_essential = Math.floor(response.data.score_all_essential * 100);
@@ -316,9 +316,9 @@ export default defineComponent ({
             //file://cors.redoc.ly/session/{session_id}/tasks/{task_id}
             console.debug(q);
             let body = { "status": score };
-            axios.patch(this.backend + "/session/" + this.sessionId + "/tasks/" + q.taskId, body)
+            axios.patch(this.backend + "/session/" + this.sessionId + "/tasks/" + q.taskId, body, this.header)
                 .then(response => {
-                console.log(response);
+
                 let r = response.data;
                 this.score.score_all = Math.floor(r.score_all * 100);
                 this.score.score_all_essential = Math.floor(r.score_all_essential * 100);
@@ -353,7 +353,7 @@ export default defineComponent ({
         },
         saveSession(){
             axios
-                .get(this.backend + '/session/' + this.sessionId)
+                .get(this.backend + '/session/' + this.sessionId, this.header)
                 .then((response) => {
                     console.log('Fair-Combine-' + this.sessionId + '.json', response);
                     const json = JSON.stringify(response.data);

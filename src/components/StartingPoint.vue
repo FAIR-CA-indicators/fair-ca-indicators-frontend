@@ -168,11 +168,9 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios';
 import { defineComponent } from 'vue';
 export default defineComponent ({
     emits: ['newSession', 'loadSessionId', 'loadLocalSession'],
-    props: ['backend', 'headers'],
     data(){
         return{
             sessionInput: {} as {
