@@ -8,10 +8,14 @@
                 <div class="col-span-7"></div><div class="m-auto font-medium">1</div><div class="m-auto font-medium">0.5</div><div class="m-auto font-medium">0</div><div class="m-auto font-medium">n/a</div><div class="m-auto font-medium whitespace-nowrap">no answer</div>
             </div>
                 
-            <div v-for="q in filterQ(qs, sub)" :key='q.name' class="grid grid-cols-12 gap-4 mb-4"><!-- question box -->
+            <div v-for="(q,index) in filterQ(qs, sub)" :key='q.name' class="grid grid-cols-12 gap-4 mb-4"><!-- question box -->
                 <div class="col-span-7">
                     <div class="rounded bg-opacity-25 w-fit p-1 pl-2 pr-2" :class="classes">{{ q.priority }}</div> <!-- priority tag -->
-                    <div class="flex flex-row pt-2"><img v-if="q.status != 'queued'" src="@/assets/auto-bot.svg" class="h-full my-auto"/><span class="ml-4 cursor-pointer" @click="loadExplanation(q)">{{ q.question }}</span></div> <!-- short description -->
+                    <div class="flex flex-row pt-2">     <!-- short description -->
+                        <img v-if="q.status != 'queued'" src="@/assets/auto-bot.svg" class="h-full my-auto w-6"/>
+                        <div v-else class="w-6"></div>
+                        <span class="ml-4 cursor-pointer" @click="loadExplanation(q)">{{ (index + 1) + '.' }}</span><span class="ml-4">{{ q.question }}</span>
+                    </div>
                 </div>
                 <div class="m-auto"> 
                     <input :id="q.name + '-radio-1'" type="radio" value="1" :name="q.name" class="" :checked="q.status == 'success'" :disabled="q.disabled" @click="$emit('setScore', q, 'success')">
