@@ -4,7 +4,7 @@
                 {{ sub }}
         </div>
         <div class="bg-white shadow-xl p-4 rounded-2xl mb-6">
-            <div class="grid grid-cols-12 gap-4">
+            <div class="bg-white grid grid-cols-12 gap-4 sticky top-0">
                 <div class="col-span-7"></div><div class="m-auto font-medium">1</div><div class="m-auto font-medium">0.5</div><div class="m-auto font-medium">0</div><div class="m-auto font-medium">n/a</div><div class="m-auto font-medium whitespace-nowrap">no answer</div>
             </div>
                 
