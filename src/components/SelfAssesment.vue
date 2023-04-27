@@ -4,16 +4,21 @@
         <!-- Findable -->
         <div class="flex-col bg-background text-black p-8">
             <h3 class="text-6xl font-bold text-findable pb-4">Findability</h3>
-            <QuestionGroups :qs="f" :keys="fKeys" :classes="'bg-findable text-findable'" @set-explanation="setExplanation" @set-explanation-flag="(b) => explanationFlag = b" @set-score="setScore"/>
+            <QuestionGroups :qs="f" :keys="fKeys" :classes="'bg-findable text-findable'" @set-explanation="setExplanation" @set-explanation-flag="(b) => explanationFlag = b" @set-score="setScore" :hideDisabled="hideDisabled"/>
             <h3 class="text-6xl font-bold text-accessible pb-4">Accessibility</h3>
-            <QuestionGroups :qs="a" :keys="aKeys" :classes="'bg-accessible text-accessible'" @set-explanation="setExplanation" @set-explanation-flag="(b) => explanationFlag = b" @set-score="setScore"/>
+            <QuestionGroups :qs="a" :keys="aKeys" :classes="'bg-accessible text-accessible'" @set-explanation="setExplanation" @set-explanation-flag="(b) => explanationFlag = b" @set-score="setScore" :hideDisabled="hideDisabled"/>
             <h3 class="text-6xl font-bold text-interopereable pb-4">Interoperability</h3>
-            <QuestionGroups :qs="i" :keys="iKeys" :classes="'bg-interopereable text-interopereable'" @set-explanation="setExplanation" @set-explanation-flag="(b) => explanationFlag = b" @set-score="setScore"/>
+            <QuestionGroups :qs="i" :keys="iKeys" :classes="'bg-interopereable text-interopereable'" @set-explanation="setExplanation" @set-explanation-flag="(b) => explanationFlag = b" @set-score="setScore" :hideDisabled="hideDisabled"/>
             <h3 class="text-6xl font-bold text-reuseable pb-4">Reusability</h3>
-            <QuestionGroups :qs="r" :keys="rKeys" :classes="'bg-reuseable text-reuseable'" @set-explanation="setExplanation" @set-explanation-flag="(b) => explanationFlag = b" @set-score="setScore"/>
+            <QuestionGroups :qs="r" :keys="rKeys" :classes="'bg-reuseable text-reuseable'" @set-explanation="setExplanation" @set-explanation-flag="(b) => explanationFlag = b" @set-score="setScore" :hideDisabled="hideDisabled"/>
         </div>
     </div>
     <div class="flex flex-col w-1/4 bg-white text-black border-light-stroke border-l-2  h-screen sticky top-0"> <!-- score and explenation block -->
+        <label class="absolute left-2 top-2 inline-flex items-center cursor-pointer">
+            <input type="checkbox" value="" class="sr-only peer"  v-model="hideDisabled">
+            <div class="w-11 h-6 border-findable border-2 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full  after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-light-stroke after:border after:border-none after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:bg-findable"></div>
+            <span class="ml-3 text-sm font-medium text-black">Hide disabled questions</span>
+        </label>
         <div class="flex flex-col flex-wrap h-2/5  border-light-stroke border-b-2"> <!-- sorce -->
             <div class="h-full w-1/2"><TachoScore :title="'score'" :score="score.score_all"/></div>
             <div class="h-1/5 w-1/2"><TachoScore :title="'essential'" :score="score.score_all_essential"/></div>
@@ -156,7 +161,8 @@ export default defineComponent ({
 
             },
             sessionId: "",
-            hiddenModal: true
+            hiddenModal: true,
+            hideDisabled: false
         };
     },
     mounted() {
