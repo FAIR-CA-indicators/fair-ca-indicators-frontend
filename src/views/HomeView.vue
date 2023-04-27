@@ -29,7 +29,6 @@ export default defineComponent ({
             },
             backend: "http://localhost:8000",   //backend url for local development
             //backend: ,  //backend url for ngrok
-            //header: {},       // header for local development
             header: {headers: {"ngrok-skip-browser-warning": 1}}, //header for ngrok
             loadId: "",
             localSession: Object,

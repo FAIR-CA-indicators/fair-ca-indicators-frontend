@@ -312,22 +312,26 @@ export default defineComponent ({
             short?: string;
             description?: string;
             taskId?: string;
+            status?: string
         }, score: string) {
             //file://cors.redoc.ly/session/{session_id}/tasks/{task_id}
-            console.debug(q);
+            console.debug(q.status);
+            alert("status?");
+            if(q.status == score) score = 'queued'; 
+            q.status = score;
             let body = { "status": score };
             axios.patch(this.backend + "/session/" + this.sessionId + "/tasks/" + q.taskId, body, this.header)
                 .then(response => {
-
-                let r = response.data;
-                this.score.score_all = Math.floor(r.score_all * 100);
-                this.score.score_all_essential = Math.floor(r.score_all_essential * 100);
-                this.score.score_all_nonessential = Math.floor(r.score_all_nonessential * 100);
-                this.score.score_applicable_all = Math.floor(r.score_applicable_all * 100);
-                this.score.score_applicable_essential = Math.floor(r.score_applicable_essential * 100);
-                this.score.score_applicable_nonessential = Math.floor(r.score_applicable_nonessential * 100);
-
-            })
+                    let r = response.data;
+                    console.debug(r);
+                    console.debug(q);
+                    this.score.score_all = Math.floor(r.score_all * 100);
+                    this.score.score_all_essential = Math.floor(r.score_all_essential * 100);
+                    this.score.score_all_nonessential = Math.floor(r.score_all_nonessential * 100);
+                    this.score.score_applicable_all = Math.floor(r.score_applicable_all * 100);
+                    this.score.score_applicable_essential = Math.floor(r.score_applicable_essential * 100);
+                    this.score.score_applicable_nonessential = Math.floor(r.score_applicable_nonessential * 100);
+                })
                 .catch(error => {
                 console.error(error.toJSON());
             });
