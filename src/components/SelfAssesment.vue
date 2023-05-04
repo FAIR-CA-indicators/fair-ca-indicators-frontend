@@ -106,7 +106,8 @@ export default defineComponent ({
                 short: string;
                 description: string;
                 status: string;
-                disabled: boolean
+                disabled: boolean;
+                automated: boolean
             }[],
             a: [] as {
                 group: string;
@@ -117,7 +118,8 @@ export default defineComponent ({
                 short: string;
                 description: string;
                 status: string;
-                disabled: boolean
+                disabled: boolean;
+                automated: boolean
             }[],
             i: [] as {
                 group: string;
@@ -128,7 +130,8 @@ export default defineComponent ({
                 short: string;
                 description: string;
                 status: string;
-                disabled: boolean
+                disabled: boolean;
+                automated: boolean
             }[],
             r: [] as {
                 group: string;
@@ -139,7 +142,8 @@ export default defineComponent ({
                 short: string;
                 description: string;
                 status: string;
-                disabled: boolean
+                disabled: boolean;
+                automated: boolean
             }[],
             explanationFlag: false,
             explanation: {} as {
@@ -168,43 +172,54 @@ export default defineComponent ({
     mounted() {
 
         console.debug(this.mode);
-
+        let getIndicators = axios.get(this.backend + '/indicators');
+        let getSession;
         //start session
         if(this.mode == 'loadRemoteSession'){
             console.debug("load remote session");
-            axios
-                .get(this.backend + '/session/' + this.loadSessionId, this.header)
-                .then( response => {
-                    this.createSession(response);
-                })
+            getSession = axios.get(this.backend + '/session/' + this.loadSessionId, this.header);
         }
-        else if(this.mode == 'loadLocalSession'){
-            console.debug("load local session");
-            axios
-                .post(this.backend + '/session/resume', this.loadLocalSession, this.header)
-                .then((response) => {
-                    this.createSession(response);
-                });
-        }
-        else if(this.mode == 'newSession'){
-            
-            console.debug(this.sessionStart);
-            console.debug("new Session");
+        else if(this.mode == 'loadLocalSession') getSession = axios.post(this.backend + '/session/resume', this.loadLocalSession, this.header);
+        else if(this.mode == 'newSession') getSession = axios.post(this.backend + "/session", this.sessionStart, this.header);
         
-            axios
-                .post(this.backend + "/session", this.sessionStart, this.header)
-                .then( response => { 
-                    this.createSession(response);
-            });
-        }
+        axios.all([getIndicators, getSession])
+            .then((responses) => {
+                console.debug(responses);
+                if(responses[0] == undefined) throw new Error('Indicators could not be retrieved');
+                let allIndicators = responses[0].data;
+
+                let indicatorMap: Record<string, {
+                    description: string;
+                    name: string;
+                    priority: string;
+                    group: string;
+                    sub_group: string;
+                    question: string;
+                    short: string;
+                    status: string;
+                    disabled: boolean;
+                    taskId: string;
+                }> = {};
+
+                allIndicators.forEach((obj: {description: string; name: string; priority: string; group: string; sub_group: string; question: string; short: string; status: string; disabled: boolean; taskId: string;}) => {
+                    indicatorMap[obj.name] = obj;
+                });
+                let session: AxiosResponse<any, any>;
+                if(responses[1] == undefined) throw new Error('Session could not be retrieved');
+                session = responses[1];
+                this.createSession(session, indicatorMap);
+            })
+            .catch((e) => {
+                console.error(e);
+            })
             
     },
     watch: {
 
     },
     methods: {
-        createSession(response: AxiosResponse<any, any>) {
-                console.log(response);
+        createSession(response: AxiosResponse<any, any>, allIndicators: { [x: string]: any; }) {
+                console.log(response, allIndicators);
                 this.sessionId = response.data.id;
                 let tasks: Record<string, {
                     id: string;
@@ -215,91 +230,49 @@ export default defineComponent ({
                     status: string;
                     comment: string;
                     disabled: boolean;
+                    automated: boolean;
                     score: number;
                 }> = {};
 
                 tasks = response.data.tasks;
-                //this.questions = response.data;    
                 console.log(tasks);
+                let categoryArray;
+                let categoryKeys;
+                
                 for (const [id, task] of Object.entries(tasks)) {
-                    //console.log(id, task);
-                    if (task.disabled)
-                        //continue;
-                        console.debug("disabled: ", task);
-                    // session/{session_id}/tasks/{task_id}
-                    axios
-                        .get(this.backend + "/indicators/" + task.name, this.header)
-                        .then(r => {
-                            let q = r.data;
-                            q.taskId = id;
-                            q.status = task.status;
-                            q.disabled = task.disabled;
-                        
-                            if (q.group == "F") {
-                                this.f.push(q);
-                                for(const [childID, childTask] of Object.entries(task.children)){
-                                    axios
-                                        .get(this.backend + "/indicators/" + childTask.name, this.header)
-                                        .then(childR => {
-                                            let childQ = childR.data;
-                                            childQ.taskId = childID;
-                                            childQ.status = task.status;
-                                            childQ.disabled = task.disabled;
-                                            this.f.push(childQ);
-                                        })
-                                }
-                                if (!this.fKeys.includes(q.sub_group))
-                                    this.fKeys.push(q.sub_group);
-                            }
-                            else if (q.group == "A") {
-                                this.a.push(q);
-                                for(const [childID, childTask] of Object.entries(task.children)){
-                                    axios
-                                        .get(this.backend + "/indicators/" + childTask.name, this.header)
-                                        .then(childR => {
-                                            let childQ = childR.data;
-                                            childQ.taskId = childID;
-                                            childQ.status = task.status;
-                                            childQ.disabled = task.disabled;
-                                            this.a.push(childQ);
-                                        })
-                                }
-                                if (!this.aKeys.includes(q.sub_group))
-                                    this.aKeys.push(q.sub_group);
-                            }
-                            if (q.group == "I") {
-                                this.i.push(q);
-                                for(const [childID, childTask] of Object.entries(task.children)){
-                                    axios
-                                        .get(this.backend + "/indicators/" + childTask.name, this.header)
-                                        .then(childR => {
-                                            let childQ = childR.data;
-                                            childQ.taskId = childID;
-                                            childQ.status = task.status;
-                                            childQ.disabled = task.disabled;
-                                            this.i.push(childQ);
-                                        })
-                                }
-                                if (!this.iKeys.includes(q.sub_group))
-                                    this.iKeys.push(q.sub_group);
-                            }
-                            if (q.group == "R") {
-                                this.r.push(q);
-                                for(const [childID, childTask] of Object.entries(task.children)){
-                                    axios
-                                        .get(this.backend + "/indicators/" + childTask.name, this.header)
-                                        .then(childR => {
-                                            let childQ = childR.data;
-                                            childQ.taskId = childID;
-                                            childQ.status = task.status;
-                                            childQ.disabled = task.disabled;
-                                            this.r.push(childQ);
-                                        })
-                                }
-                                if (!this.rKeys.includes(q.sub_group))
-                                    this.rKeys.push(q.sub_group);
-                            }
-                    });
+                    let q = allIndicators[task.name];
+                    q.taskId = id;
+                    q.status = task.status;
+                    q.disabled = task.disabled;
+                    q.automated = task.automated;
+                    console.debug(task);
+                    if(task.automated == true) alert('sad');
+                    if (q.group == "F") {
+                        categoryKeys = this.fKeys;
+                        categoryArray = this.f;
+   
+                    } else if (q.group == "A") {
+                        categoryArray = this.a;
+                        categoryKeys = this.aKeys;
+                    } else if (q.group == "I") {
+                        categoryArray = this.i;
+                        categoryKeys = this.iKeys;
+                    } else if (q.group == "R") {
+                        categoryArray = this.r;
+                        categoryKeys = this.rKeys;
+                    } else throw new Error("Group not assigneable to F, A, I or R.");
+                    
+                    
+                    categoryArray.push(q);
+                    for(const [childID, childTask] of Object.entries(task.children)){
+                        let childQ = allIndicators[childTask.name];
+                        childQ.taskId = childID;
+                        childQ.status = task.status;
+                        childQ.disabled = task.disabled;
+                        categoryArray.push(childQ);
+                    }
+                    if (!categoryKeys.includes(q.sub_group))
+                        categoryKeys.push(q.sub_group);
                 }
             
                 this.score.score_all = Math.floor(response.data.score_all * 100);
@@ -321,9 +294,7 @@ export default defineComponent ({
             status?: string
         }, score: string) {
             //file://cors.redoc.ly/session/{session_id}/tasks/{task_id}
-            console.debug(q.status);
-            alert("status?");
-            if(q.status == score) score = 'queued'; 
+            if(q.status == score) score = 'queued'; //enables unselect of raio
             q.status = score;
             let body = { "status": score };
             axios.patch(this.backend + "/session/" + this.sessionId + "/tasks/" + q.taskId, body, this.header)

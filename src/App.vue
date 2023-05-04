@@ -14,7 +14,9 @@
 
  
       <RouterView />
-
+    <div class="w-full">
+        <img class="object-fill h-full w-full" src="@/assets/footer-border.svg">
+    </div>
     <div class="bg-findable text-white p-12">
         <img src="@/assets/combine_logo.svg" alt="Combine" class="max-w-sm">
         <p class="text-xl font-bold ">Coordinating standards for modeling in biology</p>

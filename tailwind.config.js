@@ -1,8 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   mode: 'jit',
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  purge: [
+    './public/**/*.html',
+    './src/**/*.{js,jsx,ts,tsx,vue}',
+  ],
   content: [],
+  safelist: [
+    'bg-opacity-40',
+    'bg-opacity-20',
+    'bg-opacity-5'
+  ],
   theme: {
     colors: {
       transparent: 'transparent',
