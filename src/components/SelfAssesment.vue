@@ -54,8 +54,8 @@
         </div>
     </div>
     <div class="fixed h left-0 top-1/2 transform -rotate-90 -translate-x-1/2">
-        <button class="bg-findable text-white rounded rounded-t-none pb-2 px-4  transform translate-y-1/2 translate-x-1/2 whitespace-nowrap" @click="saveSession">Save session</button>
-        <button class="bg-findable text-white rounded rounded-t-none pb-2 px-4  transform translate-y-1/2 translate-x-1/2 whitespace-nowrap ml-0" @click="copyID">Copy session ID</button>
+        <button class="bg-findable text-white rounded-xl rounded-t-none pb-2 px-4 border-l-4 border-r-4 border-b-4 border-white transform translate-y-1/2 translate-x-1/2 whitespace-nowrap" @click="saveSession">Save session</button>
+        <button class="bg-findable text-white rounded-xl rounded-t-none pb-2 px-4 border-l-4 border-r-4 border-b-4 border-white transform translate-y-1/2 translate-x-1/2 whitespace-nowrap ml-0" @click="copyID">Copy session ID</button>
     </div>
 
 </div>
