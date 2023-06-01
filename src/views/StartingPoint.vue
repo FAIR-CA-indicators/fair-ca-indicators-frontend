@@ -5,10 +5,10 @@
             <p class="pt-6">Fair Combine aims to automate the evaluation of models and archives following the FAIR Combine principle. </p>
 
             <div class="flex rounded-md shadow-none items-center justify-center divide-x" role="group">
-                <button @click="sessionInput.subject_type = 'url'" type="button" class="px-4 py-2 text-sm font-medium text-white disabled:text-opacity-40" disabled>
+                <button @click="sessionInput.subject_type = 'url'" type="button" class="px-4 py-2 text-sm font-medium text-white disabled:text-opacity-40" > <!-- disabled -->
                     external URL
                 </button>
-                <button @click="sessionInput.subject_type = 'file'" type="button" class="px-4 py-2 text-sm font-medium  text-white disabled:text-opacity-40" disabled>
+                <button @click="sessionInput.subject_type = 'file'" type="button" class="px-4 py-2 text-sm font-medium  text-white disabled:text-opacity-40" > <!-- disabled -->
                     upload
                 </button>
                 <button @click="sessionInput.subject_type = 'manual'" type="button" class="px-4 py-2 text-sm font-medium  text-white disabled:text-opacity-40">
@@ -18,23 +18,30 @@
                     load session
                 </button>
             </div>
-            <form class="w-full flex" v-if="sessionInput.subject_type == 'url'">
-                <label> 
-                </label>
-                <input class="basis-2/4 border rounded" type="url" placeholder="https://">
-                <button class="ml-auto bg-white text-findable rounded py-2 px-4 ">Start</button>
-            </form>
-            <form class="w-full flex" v-else-if="sessionInput.subject_type == 'file'">
-                <input type="file" >
-                <button class="m-auto bg-white">Start</button>
-            </form>
+            <div class="w-full rounded max-w-2xl m-auto space-y-6" v-if="sessionInput.subject_type == 'url'">
+                <form class="w-full h-10 flex flex-row space-x-6">
+                    <input class="block w-full bg-findable text-sm text-white border-2 rounded-xl" placeholder="https://" type="text" @input="(event) => {loadId = event.target.value; idInserted = false;}">
+                    <button type="button" class="bg-white text-findable disabled:bg-opacity-50 disabled:text-opacity-50 rounded-lg px-4" @click="loadRemoteSession" :disabled="idInserted">Load</button>
+                </form>
+            </div>
+            
+            <div class="w-full rounded max-w-2xl m-auto space-y-6" v-else-if="sessionInput.subject_type == 'file'">
+                <form class="w-full flex flex-row space-x-6">
+                    <input type="file" class="block w-full text-sm text-white border-2 rounded-xl
+                                                    file:mr-4 file:py-2 file:px-4
+                                                    file:border-0 file:border-white
+                                                    file:text-sm file:font-semibold
+                                                    file:bg-white" @change="localFileChange">
+                    <button type="button" class="bg-white text-findable disabled:bg-opacity-50 disabled:text-opacity-50 rounded-lg px-4" @click="loadLocalSession" :disabled="fileSelected">Upload</button>
+                </form>
+            </div>
             <div class="w-full rounded max-w-2xl m-auto space-y-6 " v-else-if="sessionInput.subject_type == 'load'">
                 <form class="w-full flex flex-row space-x-6">
                     <input type="file" class="block w-full text-sm text-white border-2 rounded-xl
                                                 file:mr-4 file:py-2 file:px-4
                                                 file:border-0 file:border-white
                                                 file:text-sm file:font-semibold
-                                                file:bg-white" @change="fileChange">
+                                                file:bg-white" @change="sessionFileChange">
                     <button type="button" class="bg-white text-findable disabled:bg-opacity-50 disabled:text-opacity-50 rounded-lg px-4" @click="loadLocalSession" :disabled="fileSelected">Load</button>
                 </form>
                 <form class="w-full h-10 flex flex-row space-x-6">
@@ -168,12 +175,26 @@
 </template>
 
 <script lang="ts">
+
+//import { defineStore, mapStores } from 'pinia';
 import { defineComponent } from 'vue';
-export default defineComponent ({
+ 
+import { mapWritableState  } from 'pinia';
+import { useAssessmentStore } from '@/stores/AssessmentStore';
+
+/* const useAssessmentStore = defineStore('assessment', {
+}); */
+
+export default defineComponent({
+/*     setup() {
+        const assessment = useAssessmentStore();
+
+        return assessment;
+    }, */
     emits: ['newSession', 'loadSessionId', 'loadLocalSession'],
     data(){
         return{
-            sessionInput: {} as {
+/*             sessionInput: {} as {
                 "has_archive": boolean,
                 "has_model": boolean,
                 "has_archive_metadata": boolean,
@@ -184,7 +205,7 @@ export default defineComponent ({
                 "is_biomodel": boolean,
                 "is_pmr": boolean,
                 "subject_type": string
-            },
+            }, */
             sessionLoad: Object,
             loadId: "",
             fileSelected: true,
@@ -194,27 +215,13 @@ export default defineComponent ({
     },
     mounted(){
         console.info("Home View mounted.");
-    },
-    watch: {
-         sessionInput: {
-                handler(newSession){
-                    
-                console.debug("new", newSession);
-            },
-            deep: true 
-    }
+        console.log(useAssessmentStore);
     },
     beforeMount() {
-        this.sessionInput.subject_type = "manual";
-        this.sessionInput.has_archive = false;
-        this.sessionInput.has_model = false;
-        this.sessionInput.has_archive_metadata = false;
-        this.sessionInput.is_model_standard = false;
-        this.sessionInput.is_archive_standard = false;
-        this.sessionInput.is_model_metadata_standard = false;
-        this.sessionInput.is_archive_metadata_standard = false;
-        this.sessionInput.is_biomodel = false;
-        this.sessionInput.is_pmr = false;
+    },
+    computed: {
+        ...mapWritableState (useAssessmentStore, ["sessionInput"]),
+        
     },
     methods: {
         startSession: function(){
@@ -222,20 +229,26 @@ export default defineComponent ({
             //alert(this.sessionInput.path);
 
             console.log(this.sessionInput);
-            this.$emit('newSession', this.sessionInput);
+            this.$emit('newSession');
         },
-        fileChange: function(event: any){
+        sessionFileChange: function(event: any){
             const file = event.target.files[0];
             console.debug(file);
             const reader = new FileReader();
             reader.addEventListener('load', (event) => {
                 console.debug(event);
-                this.sessionLoad = JSON.parse(event.target.result);
+                if(event.target) this.sessionLoad = JSON.parse(event.target.result);
                 this.fileSelected = false;
 
             });
             reader.readAsText(file);
 
+        },
+        localFileChange: function(event: any){
+            const file = event.target.files[0];
+            console.debug(file);
+            alert("The upload of local models or archive files is currently not supported.")
+            /* waiting for backend */
         },
         loadLocalSession: function(){
             console.debug(typeof this.sessionLoad, this.sessionLoad);

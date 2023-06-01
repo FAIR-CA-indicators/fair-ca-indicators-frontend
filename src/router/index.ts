@@ -1,5 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import StartingPoint from '../views/StartingPoint.vue';
+import SelfAssesment from '../views/SelfAssesment.vue';
+import AboutView from '../views/AboutView.vue';
+import AllIndicators from '@/views/AllIndicators.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,16 +10,36 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      
+      component: StartingPoint
+    },
+    {
+      path: '/session',
+      name: 'newSession',
+      props: true,
+/*       <SelfAssesment :loadSessionId="loadId" :loadLocalSession="localSession" :sessionStart="sessionInput" :backend="backend" :header="header" :mode="sessionMode"/>
+ */      component: SelfAssesment
+    },
+    {
+      path: '/session/:id',
+      name: 'session',
+      props: true,
+
+      component: SelfAssesment
     },
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
+
+      component: AboutView
+    },
+    {
+      path: '/indicators',
+      name: 'indicators',
+
+      component: AllIndicators
+    },
+
   ]
 })
 

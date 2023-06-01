@@ -76,8 +76,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import axios, { type AxiosResponse } from 'axios';
-import QuestionGroups from './QuestionGroups.vue';
-import TachoScore from './TachoScore.vue';
+import QuestionGroups from '@/components/QuestionGroups.vue';
+import TachoScore from '@/components/TachoScore.vue';
+
+import {useAssessmentStore} from '@/stores/AssessmentStore';
+import { mapWritableState } from 'pinia';
+
+//const useAssessmentStore = defineStore('assessment')
 
 export default defineComponent ({
     props: {
@@ -89,62 +94,9 @@ export default defineComponent ({
         header: Object,
         loadSessionId: String,
         loadLocalSession: Object,
-        mode: String
     },
     data() {
         return {
-            fKeys: [] as string[],
-            aKeys: [] as string[],
-            iKeys: [] as string[],
-            rKeys: [] as string[],
-            f: [] as {
-                group: string;
-                sub_group: string;
-                name: string;
-                priority: string;
-                question: string;
-                short: string;
-                description: string;
-                status: string;
-                disabled: boolean;
-                automated: boolean
-            }[],
-            a: [] as {
-                group: string;
-                sub_group: string;
-                name: string;
-                priority: string;
-                question: string;
-                short: string;
-                description: string;
-                status: string;
-                disabled: boolean;
-                automated: boolean
-            }[],
-            i: [] as {
-                group: string;
-                sub_group: string;
-                name: string;
-                priority: string;
-                question: string;
-                short: string;
-                description: string;
-                status: string;
-                disabled: boolean;
-                automated: boolean
-            }[],
-            r: [] as {
-                group: string;
-                sub_group: string;
-                name: string;
-                priority: string;
-                question: string;
-                short: string;
-                description: string;
-                status: string;
-                disabled: boolean;
-                automated: boolean
-            }[],
             explanationFlag: false,
             explanation: {} as {
                 group: string;
@@ -155,33 +107,30 @@ export default defineComponent ({
                 short: string;
                 description: string;
             },
-            score: {
-                score_all: 0,
-                score_all_essential: 0,
-                score_all_nonessential: 0,
-                score_applicable_all: 0,
-                score_applicable_essential: 0,
-                score_applicable_nonessential: 0
-
-            },
             sessionId: "",
             hiddenModal: true,
             hideDisabled: false
         };
     },
+    computed: {
+        ...mapWritableState(useAssessmentStore, ['sessionType', 'id', 'f', 'a', 'i', 'r', 'fKeys', 'aKeys', 'iKeys', 'rKeys', 'score'])
+    },
     mounted() {
 
-        console.debug(this.mode);
+        console.debug(this.sessionType);
+        console.debug(this.backend);
         let getIndicators = axios.get(this.backend + '/indicators');
         let getSession;
         //start session
-        if(this.mode == 'loadRemoteSession'){
+        if(this.sessionType == 'loadRemoteSession'){
             console.debug("load remote session");
             getSession = axios.get(this.backend + '/session/' + this.loadSessionId, this.header);
         }
-        else if(this.mode == 'loadLocalSession') getSession = axios.post(this.backend + '/session/resume', this.loadLocalSession, this.header);
-        else if(this.mode == 'newSession') getSession = axios.post(this.backend + "/session", this.sessionStart, this.header);
+        else if(this.sessionType == 'loadLocalSession') getSession = axios.post(this.backend + '/session/resume', this.loadLocalSession, this.header);
+        else if(this.sessionType == 'newSession') getSession = axios.post(this.backend + "/session", this.sessionStart, this.header);
         
+        console.debug(this.sessionType, getSession);
+
         axios.all([getIndicators, getSession])
             .then((responses) => {
                 console.debug(responses);
@@ -245,8 +194,9 @@ export default defineComponent ({
                     q.status = task.status;
                     q.disabled = task.disabled;
                     q.automated = task.automated;
+
                     console.debug(task);
-                    if(task.automated == true) alert('sad');
+
                     if (q.group == "F") {
                         categoryKeys = this.fKeys;
                         categoryArray = this.f;

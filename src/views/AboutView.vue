@@ -1,9 +1,11 @@
 <template>
-    <h1>Test About</h1>
+    FAIR indicators for COMBINE archives
 </template>
 
 <script lang="ts">
-export default {
-    
-}
+import { defineComponent } from 'vue';
+
+export default defineComponent ({
+   
+})
 </script>
