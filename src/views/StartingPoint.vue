@@ -50,26 +50,25 @@
                 </form>
             </div>
             <div v-else-if="sessionInput.subject_type == 'manual'" class="w-full flex-col p-4 shadow-glow shadow-findable-stroke border-findable-stroke border-2 rounded-lg" > 
-                <h3 class="mb-4 font-semibold text-white">Do you have a single model file or a Combine archive in Omex format?</h3>
+                <h3 class="mb-4 font-semibold text-white">Do you have a single model file or a Combine Archive in Omex format?</h3>
                 <div class="flex">
                     <div class="flex items-center pl-4 ">
-                        <input id="single-modal-radio" type="radio" value="has_archive" @change="sessionInput.has_archive = sessionInput.has_model; sessionInput.has_model = !sessionInput.has_model" name="archive-radio" class="w-4 h-4 text-white">
-                        <label for="single-modal-radio" class="w-full py-4 ml-2 text-sm font-medium text-white">Single Model File</label>
+                        <input id="archive-radio-1" type="radio" :value="true" v-model="sessionInput.has_model" @change="sessionInput.has_archive = false" name="archive-radio" class="w-4 h-4 text-white">
+                        <label for="archive-radio-1" class="w-full py-4 ml-2 text-sm font-medium text-white">Single Model File</label>
                     </div>
                     <div class="flex items-center pl-4">
-                        <input id="archive-radio-2" type="radio" value="has_model" @change="sessionInput.has_model = sessionInput.has_archive; sessionInput.has_archive = !sessionInput.has_archive" name="archive-radio" class="w-4 h-4 text-white">
+                        <input id="archive-radio-2" type="radio" :value="true" v-model="sessionInput.has_archive" @change="sessionInput.has_model = false" name="archive-radio" class="w-4 h-4 text-white">
                         <label for="archive-radio-2" class="w-full py-4 ml-2 text-sm font-medium text-white">Combine Archive</label>
                     </div>
                 </div>
-
                 <h3 class="mb-4 font-semibold text-white">Do you provide metadata?</h3>
                 <div class="flex">
                     <div class="flex items-center pl-4 ">
-                        <input id="meta-radio-1" type="radio" value="has_metadata" @click="sessionInput.has_archive_metadata = true" name="meta-radio" class="w-4 h-4 text-white">
+                        <input id="meta-radio-1" type="radio" :value="true" v-model="hasMetadata"  name="meta-radio" class="w-4 h-4 text-white">
                         <label for="meta-radio-1" class="w-full py-4 ml-2 text-sm font-medium text-white">Yes</label>
                     </div>
                     <div class="flex items-center pl-4">
-                        <input id="meta-radio-2" type="radio" value="has_metadata" @click="sessionInput.has_archive_metadata = false" name="meta-radio" class="w-4 h-4 text-white">
+                        <input id="meta-radio-2" type="radio" :value="false" v-model="hasMetadata" @click="sessionInput.has_archive_metadata = false; sessionInput.is_archive_metadata_standard = false; sessionInput.is_model_metadata_standard = false" name="meta-radio" class="w-4 h-4 text-white">
                         <label for="meta-radio-2" class="w-full py-4 ml-2 text-sm font-medium text-white">No</label>
                     </div>
                 </div>
@@ -77,19 +76,19 @@
                 <h3 class="mb-4 font-semibold text-white">Do you provide the resources in the following standard formats:</h3>
                 <div class="grid grid-cols-2">
                     <div class="flex items-center pl-4 ">
-                        <input id="modal-standard-radio-1" type="radio" value="is_model_standard" @change="sessionInput.is_model_standard = true" name="modal-standard-radio" class="w-4 h-4 text-white">
-                        <label for="modal-standard-radio-1" class="w-full py-4 ml-2 text-sm font-medium text-white">Model as SBML</label>
+                        <input id="modal-standard-radio-1" type="checkbox" v-model="sessionInput.is_model_standard" name="modal-standard-radio" class="w-4 h-4 text-white"> <!-- @change="sessionInput.is_model_standard = true" -->
+                        <label for="modal-standard-radio-1" class="w-full py-4 ml-2 text-sm font-medium text-white">Model as SBML or CellML</label>
                     </div>
-                    <div class="flex items-center pl-4">
-                        <input id="modal-standard-radio-2" type="radio" value="is_model_standard" @change="sessionInput.is_model_standard = true" name="modal-standard-radio" class="w-4 h-4 text-white">
+<!--                     <div class="flex items-center pl-4">
+                        <input id="modal-standard-radio-2" type="radio" v-model="sessionInput.is_model_metadata_standard"  name="modal-standard-radio" class="w-4 h-4 text-white">  //@change="sessionInput.is_model_standard = true"  
                         <label for="modal-standard-radio-2" class="w-full py-4 ml-2 text-sm font-medium text-white">Model as CellML</label>
-                    </div>
+                    </div> -->
                     <div class="flex items-center pl-4 ">
-                        <input id="format-radio-1" type="checkbox" value="meta_standard" @change="sessionInput.is_archive_metadata_standard = !sessionInput.is_archive_metadata_standard" name="format-radio" class="w-4 h-4 text-white">
+                        <input id="format-radio-1" type="checkbox" value="meta_standard" v-model="sessionInput.is_archive_metadata_standard" name="format-radio" class="w-4 h-4 text-white" :disabled="!hasMetadata">
                         <label for="format-radio-1" class="w-full py-4 ml-2 text-sm font-medium text-white">Metadata of the archive as manifest.xml</label>
                     </div>
                     <div class="flex items-center pl-4">
-                        <input id="format-radio-2" type="checkbox" value="meta_standard" @change="sessionInput.is_model_metadata_standard = !sessionInput.is_model_metadata_standard" name="format-radio" class="w-4 h-4 text-white">
+                        <input id="format-radio-2" type="checkbox" v-model="sessionInput.is_model_metadata_standard" name="format-radio" class="w-4 h-4 text-white" :disabled="!hasMetadata">
                         <label for="format-radio-2" class="w-full py-4 ml-2 text-sm font-medium text-white">Metadata of the model as SED-ML</label>
                     </div>
                 </div>
@@ -97,11 +96,11 @@
                 <h3 class="mb-4 font-semibold text-white">Is the model or archive available on the following model repositories?</h3>
                 <div class="flex">
                     <div class="flex items-center pl-4 ">
-                        <input id="repo-check-1" type="checkbox" value="true" v-model="sessionInput.is_biomodel"  name="repo-radio" class="w-4 h-4 text-white">
-                        <label for="repo-chekc-1" class="w-full py-4 ml-2 text-sm font-medium text-white">Biomodels</label>
+                        <input id="repo-check-1" type="checkbox" v-model="sessionInput.is_biomodel"  name="repo-biom" class="w-4 h-4 text-white">
+                        <label for="repo-check-1" class="w-full py-4 ml-2 text-sm font-medium text-white">Biomodels</label>
                     </div>
                     <div class="flex items-center pl-4">
-                        <input id="repo-check-2" type="checkbox" value="true" v-model="sessionInput.is_pmr" name="repo-radio" class="w-4 h-4 text-white">
+                        <input id="repo-check-2" type="checkbox" v-model="sessionInput.is_pmr" name="repo-pmr" class="w-4 h-4 text-white">
                         <label for="repo-check-2" class="w-full py-4 ml-2 text-sm font-medium text-white">PMR</label>
                     </div>
                 </div>
@@ -113,7 +112,7 @@
         </div>
         <div v-if="sessionInput.subject_type == 'url'" class="basis-1/2 p-5 text-xl">
             <ol class="list-none"> 
-                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">1</span><span> Enter the URL of a combine archive </span></li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">1</span><span> Enter the URL of a Combine Archive </span></li>
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Start"</li>
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Automatic tests start</li>
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">4</span> Respond to a few questions</li>
@@ -194,18 +193,6 @@ export default defineComponent({
     emits: ['newSession', 'loadSessionId', 'loadLocalSession'],
     data(){
         return{
-/*             sessionInput: {} as {
-                "has_archive": boolean,
-                "has_model": boolean,
-                "has_archive_metadata": boolean,
-                "is_model_standard": boolean,
-                "is_archive_standard": boolean,
-                "is_model_metadata_standard": boolean,
-                "is_archive_metadata_standard": boolean,
-                "is_biomodel": boolean,
-                "is_pmr": boolean,
-                "subject_type": string
-            }, */
             sessionLoad: Object,
             loadId: "",
             fileSelected: true,
@@ -220,15 +207,16 @@ export default defineComponent({
     beforeMount() {
     },
     computed: {
-        ...mapWritableState (useAssessmentStore, ["sessionInput"]),
+        ...mapWritableState (useAssessmentStore, ["sessionInput", "hasMetadata"]),
         
     },
     methods: {
         startSession: function(){
             //if(!this.sessionInput.path) this.sessionInput.path = null;
             //alert(this.sessionInput.path);
-
-            console.log(this.sessionInput);
+            let sessionInput = this.sessionInput
+            useAssessmentStore().$reset();            
+            this.sessionInput = sessionInput;
             this.$emit('newSession');
         },
         sessionFileChange: function(event: any){

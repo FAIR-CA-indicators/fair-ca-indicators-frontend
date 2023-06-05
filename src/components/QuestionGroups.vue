@@ -34,6 +34,7 @@
                         <input :id="q.name + '-radio-4'" type="radio" value="noaans" :name="q.name" class="" :checked="q.status == 'not_answered'" :disabled="q.disabled" @click="$emit('setScore', q, 'not_answered')">
                     </div>  
                 </div>
+
             </div>                        
         </div>
     </div>

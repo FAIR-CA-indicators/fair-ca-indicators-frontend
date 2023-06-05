@@ -81,10 +81,14 @@ import TachoScore from '@/components/TachoScore.vue';
 
 import {useAssessmentStore} from '@/stores/AssessmentStore';
 import { mapWritableState } from 'pinia';
+import router from '@/router';
 
 //const useAssessmentStore = defineStore('assessment')
 
 export default defineComponent ({
+    emits: {
+
+    },
     props: {
         sessionStart: Object,
         backend: {
@@ -107,13 +111,12 @@ export default defineComponent ({
                 short: string;
                 description: string;
             },
-            sessionId: "",
             hiddenModal: true,
             hideDisabled: false
         };
     },
     computed: {
-        ...mapWritableState(useAssessmentStore, ['sessionType', 'id', 'f', 'a', 'i', 'r', 'fKeys', 'aKeys', 'iKeys', 'rKeys', 'score'])
+        ...mapWritableState(useAssessmentStore, ['sessionType', 'sessionInput', 'id', 'f', 'a', 'i', 'r', 'fKeys', 'aKeys', 'iKeys', 'rKeys', 'score'])
     },
     mounted() {
 
@@ -127,9 +130,20 @@ export default defineComponent ({
             getSession = axios.get(this.backend + '/session/' + this.loadSessionId, this.header);
         }
         else if(this.sessionType == 'loadLocalSession') getSession = axios.post(this.backend + '/session/resume', this.loadLocalSession, this.header);
-        else if(this.sessionType == 'newSession') getSession = axios.post(this.backend + "/session", this.sessionStart, this.header);
+        else if(this.sessionType == 'newSession'){
+            getSession = axios.post(this.backend + "/session", this.sessionInput, this.header);
+            this.sessionType = 'created'; //status, if the session was already created. Enables users to navigate through history
+        } 
+        else if(this.sessionType == 'created') {
+            // session already created 
+            return;
+        }
+        else {
+            console.warn("Assessment page was reached without actively loading an old or a new session. This should load the local state.");
+            router.push('/');
+        }
         
-        console.debug(this.sessionType, getSession);
+        console.debug(this.sessionType, this.sessionInput, this.header, getSession);
 
         axios.all([getIndicators, getSession])
             .then((responses) => {
@@ -168,8 +182,10 @@ export default defineComponent ({
     },
     methods: {
         createSession(response: AxiosResponse<any, any>, allIndicators: { [x: string]: any; }) {
+
                 console.log(response, allIndicators);
-                this.sessionId = response.data.id;
+                this.id = response.data.id;
+                router.replace({ path: '/session', query: {id: this.id} });
                 let tasks: Record<string, {
                     id: string;
                     name: string;
@@ -195,12 +211,9 @@ export default defineComponent ({
                     q.disabled = task.disabled;
                     q.automated = task.automated;
 
-                    console.debug(task);
-
                     if (q.group == "F") {
                         categoryKeys = this.fKeys;
                         categoryArray = this.f;
-   
                     } else if (q.group == "A") {
                         categoryArray = this.a;
                         categoryKeys = this.aKeys;
@@ -211,7 +224,6 @@ export default defineComponent ({
                         categoryArray = this.r;
                         categoryKeys = this.rKeys;
                     } else throw new Error("Group not assigneable to F, A, I or R.");
-                    
                     
                     categoryArray.push(q);
                     for(const [childID, childTask] of Object.entries(task.children)){
@@ -247,11 +259,9 @@ export default defineComponent ({
             if(q.status == score) score = 'queued'; //enables unselect of raio
             q.status = score;
             let body = { "status": score };
-            axios.patch(this.backend + "/session/" + this.sessionId + "/tasks/" + q.taskId, body, this.header)
+            axios.patch(this.backend + "/session/" + this.id + "/tasks/" + q.taskId, body, this.header)
                 .then(response => {
                     let r = response.data;
-                    console.debug(r);
-                    console.debug(q);
                     this.score.score_all = Math.floor(r.score_all * 100);
                     this.score.score_all_essential = Math.floor(r.score_all_essential * 100);
                     this.score.score_all_nonessential = Math.floor(r.score_all_nonessential * 100);
@@ -284,20 +294,20 @@ export default defineComponent ({
         },
         saveSession(){
             axios
-                .get(this.backend + '/session/' + this.sessionId, this.header)
+                .get(this.backend + '/session/' + this.id, this.header)
                 .then((response) => {
-                    console.log('Fair-Combine-' + this.sessionId + '.json', response);
+                    console.log('Fair-Combine-' + this.id + '.json', response);
                     const json = JSON.stringify(response.data);
                     const url = window.URL.createObjectURL(new Blob([json]));
                     const link = document.createElement('a');
                     link.href = url;
-                    link.setAttribute('download', 'Fair-Combine-' + this.sessionId + '.json');
+                    link.setAttribute('download', 'Fair-Combine-' + this.id + '.json');
                     document.body.appendChild(link);
                     link.click();
                 })
         },
         copyID(){
-            navigator.clipboard.writeText(this.sessionId);
+            navigator.clipboard.writeText(this.id.toString());
             this.hiddenModal = false;
             setTimeout(() => this.hiddenModal = true, 2000)
         }

@@ -3,8 +3,8 @@ import { defineStore } from 'pinia'
 
 export type inputState = {
     subject_type: string;
-    has_archive: boolean;
-    has_model: boolean;
+    has_archive: boolean | null;
+    has_model: boolean | null;
     has_archive_metadata: boolean;
     is_model_standard: boolean;
     is_archive_standard: boolean;
@@ -18,10 +18,11 @@ export type sessionState = {
         sessionType: string,
         id: -1,
         sessionInput: inputState,
+        hasMetadata: boolean,
         f: question[],
         a: question[],
         i: question[],
-        r: question[];
+        r: question[],
         fKeys: string[],
         aKeys: string[],
         iKeys: string[],
@@ -58,8 +59,8 @@ export const useAssessmentStore = defineStore('assessmentStore', {
     state: () => ({
        sessionInput: {
         subject_type: "manual",
-        has_archive: false,
-        has_model: false,
+        has_archive: null,
+        has_model: null,
         has_archive_metadata: false,
         is_model_standard: false,
         is_archive_standard: false,
@@ -69,6 +70,7 @@ export const useAssessmentStore = defineStore('assessmentStore', {
         is_pmr: false
 
        },
+       hasMetadata: false,
        score: {
         score_all: 0,
         score_all_essential: 0,
@@ -76,7 +78,16 @@ export const useAssessmentStore = defineStore('assessmentStore', {
         score_applicable_all: 0,
         score_applicable_essential: 0,
         score_applicable_nonessential: 0
-       }
+       },
+       f: [] as question[],
+       a: [] as question[],
+       i: [] as question[],
+       r: [] as question[],
+       fKeys: [] as string[],
+       aKeys: [] as string[],
+       iKeys: [] as string[],
+       rKeys: [] as string[]
+
     } as sessionState),
     getters: {
 
