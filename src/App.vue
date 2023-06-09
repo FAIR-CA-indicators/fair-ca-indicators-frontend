@@ -1,6 +1,6 @@
 <template>
 <div class="font-sans">
-    <header class="flex w-full gap-x-12 text-xl bg-findable text-white p-10">
+    <header class="flex w-full gap-x-12 text-xl bg-findable text-white p-10  items-center">
         <p class="font-bold text-2xl">FAIR Combine</p>
         
        <!--  <p class="text-opacity-20 text-white ml-auto">Home</p> -->
@@ -27,7 +27,7 @@
             <h3 class="text-6xl text-findable font-bold">Ready to start?</h3>
             <div class="grid grid-cols-3 gap-x-6">
                 <div class=""></div>
-                <button class="bg-findable text-white rounded-2xl p-3 w-52 h-min text-2xl place-self-end">Back to top</button>
+                <button class="bg-findable text-white rounded-2xl p-3 w-52 h-min text-2xl place-self-end" @click="scrollToTop">Back to top</button>
                 <img src="@/assets/fancy_arrow.svg" class="w-12">
             </div>
         </div>
@@ -99,6 +99,9 @@ export default defineComponent ({
         loadLocalSession(localSession: any){
             this.localSession = localSession;
             this.sessionType = 'loadLocalSession';
+        },
+        scrollToTop(){
+            window.scrollTo({ top: 0, behavior: "smooth" });
         }
     }
 })

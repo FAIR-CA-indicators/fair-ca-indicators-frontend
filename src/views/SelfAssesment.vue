@@ -2,7 +2,7 @@
 <div class="flex">
     <div class="w-3/4"> <!-- question block -->
         <!-- Findable -->
-        <div class="flex-col bg-background text-black p-8">
+        <div class="flex-col bg-background text-black p-20">
             <h3 class="text-6xl font-bold text-findable pb-4">Findability</h3>
             <QuestionGroups :qs="f" :keys="fKeys" :classes="'bg-findable text-findable'" @set-explanation="setExplanation" @set-explanation-flag="(b) => explanationFlag = b" @set-score="setScore" :hideDisabled="hideDisabled"/>
             <h3 class="text-6xl font-bold text-accessible pb-4">Accessibility</h3>

@@ -18,7 +18,7 @@ export type sessionState = {
         sessionType: string,
         id: -1,
         sessionInput: inputState,
-        hasMetadata: boolean,
+        hasMetadata: boolean | null,
         f: question[],
         a: question[],
         i: question[],
@@ -70,7 +70,7 @@ export const useAssessmentStore = defineStore('assessmentStore', {
         is_pmr: false
 
        },
-       hasMetadata: false,
+       hasMetadata: null,
        score: {
         score_all: 0,
         score_all_essential: 0,
