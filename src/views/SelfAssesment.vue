@@ -95,9 +95,17 @@ export default defineComponent ({
             type: String,
             required: true
         },
-        header: Object,
+        formHeader:{
+            type: Object,
+            required: true
+        },
+        applicationHeader:{
+            type: Object,
+            required: true
+        },
         loadSessionId: String,
         loadLocalSession: Object,
+        omexFile: File
     },
     data() {
         return {
@@ -120,20 +128,28 @@ export default defineComponent ({
     },
     mounted() {
 
-        console.debug(this.sessionType);
-        console.debug(this.backend);
-        let getIndicators = axios.get(this.backend + '/indicators');
+        console.debug("session type: ", this.sessionType);
+        console.debug("backend: ", this.backend);
+
+        let getIndicators = axios.get(this.backend + '/indicators', this.applicationHeader);
         let getSession;
         //start session
         if(this.sessionType == 'loadRemoteSession'){
             console.debug("load remote session");
-            getSession = axios.get(this.backend + '/session/' + this.loadSessionId, this.header);
+            console.debug(this.loadSessionId);
+            getSession = axios.get(this.backend + '/session/' + this.loadSessionId, this.applicationHeader);
         }
-        else if(this.sessionType == 'loadLocalSession') getSession = axios.post(this.backend + '/session/resume', this.loadLocalSession, this.header);
+        else if(this.sessionType == 'loadLocalSession'){
+            console.debug(this.loadLocalSession);
+            getSession = axios.post(this.backend + '/session/resume', this.loadLocalSession, this.applicationHeader); //
+        } 
         else if(this.sessionType == 'newSession'){
-            getSession = axios.post(this.backend + "/session", this.sessionInput, this.header);
+            getSession = axios.post(this.backend + "/session", this.sessionInput, this.formHeader);
             this.sessionType = 'created'; //status, if the session was already created. Enables users to navigate through history
         } 
+        else if(this.sessionType == 'loadArchive'){
+            getSession =  axios.post(this.backend + '/session', [{'file': this.omexFile}], this.formHeader)
+        }
         else if(this.sessionType == 'created') {
             // session already created 
             return;
@@ -143,7 +159,7 @@ export default defineComponent ({
             router.push('/');
         }
         
-        console.debug(this.sessionType, this.sessionInput, this.header, getSession);
+       
 
         axios.all([getIndicators, getSession])
             .then((responses) => {
@@ -259,7 +275,7 @@ export default defineComponent ({
             if(q.status == score) score = 'queued'; //enables unselect of raio
             q.status = score;
             let body = { "status": score };
-            axios.patch(this.backend + "/session/" + this.id + "/tasks/" + q.taskId, body, this.header)
+/*             axios.patch(this.backend + "/session/" + this.id + "/tasks/" + q.taskId, body, this.header)
                 .then(response => {
                     let r = response.data;
                     this.score.score_all = Math.floor(r.score_all * 100);
@@ -271,7 +287,7 @@ export default defineComponent ({
                 })
                 .catch(error => {
                 console.error(error.toJSON());
-            });
+            }); */
         },
         setExplanation(q: {
             group: string;
@@ -294,7 +310,7 @@ export default defineComponent ({
         },
         saveSession(){
             axios
-                .get(this.backend + '/session/' + this.id, this.header)
+                .get(this.backend + '/session/' + this.id, this.applicationHeader)
                 .then((response) => {
                     console.log('Fair-Combine-' + this.id + '.json', response);
                     const json = JSON.stringify(response.data);

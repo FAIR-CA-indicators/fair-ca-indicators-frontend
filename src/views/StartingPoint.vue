@@ -32,7 +32,7 @@
                                                     file:border-0 file:border-white
                                                     file:text-sm file:font-semibold
                                                     file:bg-white" @change="localFileChange">
-                    <button type="button" class="bg-white text-findable disabled:bg-opacity-50 disabled:text-opacity-50 rounded-lg px-4" @click="loadLocalSession" :disabled="fileSelected">Upload</button>
+                    <button type="button" class="bg-white text-findable disabled:bg-opacity-50 disabled:text-opacity-50 rounded-lg px-4" @click="uploadArchive" :disabled="archiveSelected">Upload</button>
                 </form>
             </div>
             <div class="w-full rounded max-w-2xl m-auto space-y-6 " v-else-if="sessionInput.subject_type == 'load'">
@@ -190,11 +190,13 @@ export default defineComponent({
 
         return assessment;
     }, */
-    emits: ['newSession', 'loadSessionId', 'loadLocalSession'],
+    emits: ['newSession', 'loadSessionId', 'loadLocalSession', 'uploadArchive'],
     data(){
         return{
             sessionLoad: Object,
+            archiveFile: File,
             loadId: "",
+            archiveSelected: true,
             fileSelected: true,
             idInserted: true
 
@@ -233,16 +235,23 @@ export default defineComponent({
 
         },
         localFileChange: function(event: any){
-            const file = event.target.files[0];
-            console.debug(file);
-            alert("The upload of local models or archive files is currently not supported.")
+            this.archiveFile = event.target.files[0];
+            console.debug(this.archiveFile);
+            this.archiveSelected = false;
             /* waiting for backend */
         },
+        uploadArchive: function(){
+            useAssessmentStore().$reset();     //reset to default values to remove latest session
+            console.debug('upload archive');
+            this.$emit('uploadArchive', this.archiveFile);
+        },
         loadLocalSession: function(){
+            useAssessmentStore().$reset();
             console.debug(typeof this.sessionLoad, this.sessionLoad);
             this.$emit('loadLocalSession', this.sessionLoad);
         },
         loadRemoteSession: function(){
+            useAssessmentStore().$reset();
             this.$emit('loadSessionId', this.loadId);
         }
     }

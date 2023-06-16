@@ -12,7 +12,8 @@
         <a href="https://github.com/FAIR-CA-indicators" class="cursor-pointer"> <img src="@/assets/github-mark-white.svg" alt="GitHub" class="h-10"></a>
     </header>
 
-    <RouterView @new-session="newSession" @load-session-id="loadRemoteSession" @load-local-session="loadLocalSession" :backend="backend"/>
+    <RouterView @new-session="newSession" @load-session-id="loadRemoteSession" @load-local-session="loadLocalSession" @upload-archive="uploadOmex"
+         :backend="backend" :formHeader="formHeader" :applicationHeader="applicationHeader" :loadLocalSession="localSession" :loadSessionId="loadId" :omexFile="omexFile"/>
 
     <div class="w-full">
         <img class="object-fill h-full w-full" src="@/assets/footer-border.svg">
@@ -74,9 +75,15 @@ export default defineComponent ({
             },
             backend: "http://localhost:8000",   //backend url for local development
             //backend: ,  //backend url for ngrok
-            //header: {headers: {"ngrok-skip-browser-warning": 1}}, //header for ngrok
+            //formHeader: {headers: {"ngrok-skip-browser-warning": 1, "Content-Type": "multipart/form-data"}}, //header for ngrok
+            //applicationHeader: {headers: {"ngrok-skip-browser-warning": 1}},
+            formHeader: {headers: {'Content-Type': 'multipart/form-data'}},
+            applicationHeader: {headers: {}},
+            
+            
             loadId: "",
             localSession: Object,
+            omexFile: File,
             sessionMode: ''
         };
     },
@@ -95,10 +102,17 @@ export default defineComponent ({
         loadRemoteSession(loadId: string){
             this.loadId = loadId;
             this.sessionType = 'loadRemoteSession';
+            router.push('/session');
         },
         loadLocalSession(localSession: any){
             this.localSession = localSession;
             this.sessionType = 'loadLocalSession';
+            router.push('/session');
+        },
+        uploadOmex(file: any){
+            this.omexFile = file;
+            this.sessionType = 'loadArchive';
+            router.push('/session');
         },
         scrollToTop(){
             window.scrollTo({ top: 0, behavior: "smooth" });
