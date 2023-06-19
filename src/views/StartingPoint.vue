@@ -236,8 +236,14 @@ export default defineComponent({
         },
         localFileChange: function(event: any){
             this.archiveFile = event.target.files[0];
-            console.debug(this.archiveFile);
             this.archiveSelected = false;
+            
+/*             const reader = new FileReader();
+            reader.addEventListener('load', (event) => {
+                if(event.target) this.archiveFile = event.target.files;
+                this.archiveSelected = false;
+
+            }) */
             /* waiting for backend */
         },
         uploadArchive: function(){

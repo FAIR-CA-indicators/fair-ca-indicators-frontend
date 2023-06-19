@@ -148,7 +148,7 @@ export default defineComponent ({
             this.sessionType = 'created'; //status, if the session was already created. Enables users to navigate through history
         } 
         else if(this.sessionType == 'loadArchive'){
-            getSession =  axios.post(this.backend + '/session', [{'file': this.omexFile}], this.formHeader)
+            getSession =  axios.post(this.backend + '/session', {'subject_type': 'file', 'uploaded_file': this.omexFile}, this.formHeader)
         }
         else if(this.sessionType == 'created') {
             // session already created 
