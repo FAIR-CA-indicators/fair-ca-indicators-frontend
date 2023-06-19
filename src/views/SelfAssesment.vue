@@ -274,8 +274,8 @@ export default defineComponent ({
             //file://cors.redoc.ly/session/{session_id}/tasks/{task_id}
             if(q.status == score) score = 'queued'; //enables unselect of raio
             q.status = score;
-            let body = { "status": score };
-/*             axios.patch(this.backend + "/session/" + this.id + "/tasks/" + q.taskId, body, this.header)
+
+            axios.patch(this.backend + "/session/" + this.id + "/tasks/" + q.taskId,  { "status": score }, this.applicationHeader)
                 .then(response => {
                     let r = response.data;
                     this.score.score_all = Math.floor(r.score_all * 100);
@@ -287,7 +287,7 @@ export default defineComponent ({
                 })
                 .catch(error => {
                 console.error(error.toJSON());
-            }); */
+            });
         },
         setExplanation(q: {
             group: string;
