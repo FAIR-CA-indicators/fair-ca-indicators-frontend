@@ -286,23 +286,25 @@ export default defineComponent ({
                         this.f.forEach(q => {
                             if(q.taskId == name && q.disabled != r.tasks[name].disabled) q.disabled = r.tasks[name].disabled;
                             if(q.taskId == name && q.automated != r.tasks[name].automated) q.automated = r.tasks[name].automated;
-
                             if(q.taskId == name && q.status != r.tasks[name].status) q.status = r.tasks[name].status;
                         })
 
                         this.a.forEach(q => {
                             if(q.taskId == name && q.disabled != r.tasks[name].disabled) q.disabled = r.tasks[name].disabled;
+                            if(q.taskId == name && q.automated != r.tasks[name].automated) q.automated = r.tasks[name].automated;
                             if(q.taskId == name && q.status != r.tasks[name].status) q.status = r.tasks[name].status;
                         })
 
                         this.i.forEach(q => {
                             if(q.taskId == name && q.disabled != r.tasks[name].disabled) q.disabled = r.tasks[name].disabled;
+                            if(q.taskId == name && q.automated != r.tasks[name].automated) q.automated = r.tasks[name].automated;
                             if(q.taskId == name && q.status != r.tasks[name].status) q.status = r.tasks[name].status;
                         })
 
 
                         this.r.forEach(q => {
                             if(q.taskId == name && q.disabled != r.tasks[name].disabled) q.disabled = r.tasks[name].disabled;
+                            if(q.taskId == name && q.automated != r.tasks[name].automated) q.automated = r.tasks[name].automated;
                             if(q.taskId == name && q.status != r.tasks[name].status) q.status = r.tasks[name].status;
                         })
                         
