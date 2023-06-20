@@ -16,7 +16,8 @@
                     <div class="col-span-7">
                         <div class="rounded w-fit p-1 pl-2 pr-2" :class="addOpacitiy(classes, q.priority)">{{ q.priority }}</div> <!-- priority tag -->
                         <div class="flex flex-row pt-2">     <!-- short description -->
-                            <img v-if="q.automated == true" src="@/assets/auto-bot.svg" class="h-full my-auto w-6"/>
+                            <LoadingAnimation v-if="q.status == 'started'" class="h-full my-auto w-6"/>
+                            <img v-else-if="q.automated == true" src="@/assets/auto-bot.svg" class="h-full my-auto w-6"/>
                             <div v-else class="w-6"></div>
                             <span class="ml-4 cursor-pointer" @click="loadExplanation(q)">{{ (index + 1) + '.' }}<span class="ml-4">{{ q.question }}</span></span>
                         </div>
@@ -47,48 +48,107 @@
     import { defineComponent } from 'vue';
     import type { PropType } from 'vue'
 
+    import LoadingAnimation from '@/components/LoadingAnimation.vue';
 
     export default defineComponent ({
-        emits: ['setExplanation', 'setExplanationFlag', 'setScore'],
-        props: {
-            keys: Array as PropType<string[]>,
-            qs: {
-                    type: Array as PropType<{group: string; sub_group: string; name: string; priority: string; question: string; short: string; description: string; status: string; disabled: boolean; automated: boolean}[]>,
-                    required: true,
-            },
-            classes: {
-                type: String,
-                required: true
-            },
-            hideDisabled: Boolean
+    emits: ["setExplanation", "setExplanationFlag", "setScore"],
+    props: {
+        keys: Array as PropType<string[]>,
+        qs: {
+            type: Array as PropType<{
+                group: string;
+                sub_group: string;
+                name: string;
+                priority: string;
+                question: string;
+                short: string;
+                description: string;
+                status: string;
+                disabled: boolean;
+                automated: boolean;
+            }[]>,
+            required: true,
         },
-        methods: {
-        loadExplanation(q: {group: string; sub_group: string; name: string; priority: string; question: string; short: string; description: string; status: string;  disabled: boolean; automated: boolean}) {
-            this.$emit('setExplanation', q);
-            this.$emit('setExplanationFlag', true);
+        classes: {
+            type: String,
+            required: true
         },
-        filterQ(qS: {group: string; sub_group: string; name: string; priority: string; question: string; short: string; description: string; status: string;  disabled: boolean; automated: boolean}[], sub: string) {
-            let arr: {group: string; sub_group: string; name: string; priority: string; question: string; short: string; description: string; status: string;  disabled: boolean; automated: boolean}[] = [];
+        hideDisabled: Boolean
+    },
+    methods: {
+        loadExplanation(q: {
+            group: string;
+            sub_group: string;
+            name: string;
+            priority: string;
+            question: string;
+            short: string;
+            description: string;
+            status: string;
+            disabled: boolean;
+            automated: boolean;
+        }) {
+            this.$emit("setExplanation", q);
+            this.$emit("setExplanationFlag", true);
+        },
+        filterQ(qS: {
+            group: string;
+            sub_group: string;
+            name: string;
+            priority: string;
+            question: string;
+            short: string;
+            description: string;
+            status: string;
+            disabled: boolean;
+            automated: boolean;
+        }[], sub: string) {
+            let arr: {
+                group: string;
+                sub_group: string;
+                name: string;
+                priority: string;
+                question: string;
+                short: string;
+                description: string;
+                status: string;
+                disabled: boolean;
+                automated: boolean;
+            }[] = [];
             qS.forEach(q => {
                 if (q.sub_group == sub && !(q.disabled && this.hideDisabled))
                     arr.push(q);
             });
             return arr;
         },
-        allDisabled(qS: {group: string; sub_group: string; name: string; priority: string; question: string; short: string; description: string; status: string;  disabled: boolean; automated: boolean}[], sub: string){
+        allDisabled(qS: {
+            group: string;
+            sub_group: string;
+            name: string;
+            priority: string;
+            question: string;
+            short: string;
+            description: string;
+            status: string;
+            disabled: boolean;
+            automated: boolean;
+        }[], sub: string) {
             let filtered = this.filterQ(qS, sub);
             return filtered.length === 0;
         },
-        addOpacitiy(inheritedClasses: string, priority: string){
+        addOpacitiy(inheritedClasses: string, priority: string) {
             let opacity;
-            if(priority == 'essential') opacity = '40';
-            else if(priority == 'important') opacity = '20';
-            else if(priority == 'useful') opacity = '5';
-            else alert(priority);
-
-            return inheritedClasses + ' bg-opacity-' + opacity;
+            if (priority == "essential")
+                opacity = "40";
+            else if (priority == "important")
+                opacity = "20";
+            else if (priority == "useful")
+                opacity = "5";
+            else
+                alert(priority);
+            return inheritedClasses + " bg-opacity-" + opacity;
         }
-    }
-        
-    })
+    },
+    components: { LoadingAnimation }
+})
 </script>
