@@ -79,7 +79,7 @@ import axios, { type AxiosResponse } from 'axios';
 import QuestionGroups from '@/components/QuestionGroups.vue';
 import TachoScore from '@/components/TachoScore.vue';
 
-import {useAssessmentStore} from '@/stores/AssessmentStore';
+import {useAssessmentStore, type question} from '@/stores/AssessmentStore';
 import { mapWritableState } from 'pinia';
 import router from '@/router';
 
@@ -278,6 +278,34 @@ export default defineComponent ({
             axios.patch(this.backend + "/session/" + this.id + "/tasks/" + q.taskId,  { "status": score }, this.applicationHeader)
                 .then(response => {
                     let r = response.data;
+
+                    let name: keyof typeof r.tasks;
+                    for (name in r.tasks) {
+
+                        //console.debug(r.tasks[name]);
+                        this.f.forEach(q => {
+                            if(q.taskId == name && q.status != r.tasks[name].status) console.debug(q, " -> ", r.tasks[name].status);
+                            if(q.taskId == name && q.status != r.tasks[name].status) q.status = r.tasks[name].status;
+                        })
+
+                        this.a.forEach(q => {
+                            if(q.taskId == name && q.status != r.tasks[name].status) console.error("a");
+                            if(q.taskId == name && q.status != r.tasks[name].status) q.status = r.tasks[name].status;
+                        })
+
+                        this.i.forEach(q => {
+                            if(q.taskId == name && q.status != r.tasks[name].status) console.error("i");
+                            if(q.taskId == name && q.status != r.tasks[name].status) q.status = r.tasks[name].status;
+                        })
+
+
+                        this.r.forEach(q => {
+                            if(q.taskId == name && q.status != r.tasks[name].status) console.error("r");
+                            if(q.taskId == name && q.status != r.tasks[name].status) q.status = r.tasks[name].status;
+                        })
+                        
+                    }
+                
                     this.score.score_all = Math.floor(r.score_all * 100);
                     this.score.score_all_essential = Math.floor(r.score_all_essential * 100);
                     this.score.score_all_nonessential = Math.floor(r.score_all_nonessential * 100);
@@ -286,8 +314,8 @@ export default defineComponent ({
                     this.score.score_applicable_nonessential = Math.floor(r.score_applicable_nonessential * 100);
                 })
                 .catch(error => {
-                console.error(error.toJSON());
-            });
+                    console.error(error);
+                });
         },
         setExplanation(q: {
             group: string;

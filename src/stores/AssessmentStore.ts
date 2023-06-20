@@ -41,7 +41,8 @@ export type question = {
     description: string;
     status: string;
     disabled: boolean;
-    automated: boolean
+    automated: boolean;
+    taskId: string
 }
 
 export type scores = {

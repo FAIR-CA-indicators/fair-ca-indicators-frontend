@@ -77,7 +77,6 @@
         },
         allDisabled(qS: {group: string; sub_group: string; name: string; priority: string; question: string; short: string; description: string; status: string;  disabled: boolean; automated: boolean}[], sub: string){
             let filtered = this.filterQ(qS, sub);
-            console.debug(filtered.length, sub);
             return filtered.length === 0;
         },
         addOpacitiy(inheritedClasses: string, priority: string){
