@@ -6,8 +6,8 @@
        <!--  <p class="text-opacity-20 text-white ml-auto">Home</p> -->
         <router-link to="/" class="ml-auto cursor-pointer">Home</router-link> 
        <!-- <p class="text-opacity-20 text-white">Indicators</p> -->
-        <router-link to="/indicators" class="cursor-pointer" disabled>Indicators</router-link>
-        <!-- <p class="text-opacity-20 text-white">About</p> -->
+<!--         <router-link to="/indicators" class="cursor-pointer" disabled>Indicators</router-link>
+ -->        <!-- <p class="text-opacity-20 text-white">About</p> -->
         <router-link to="/about" class="cursor-pointer" :disabled="true">About</router-link>
         <a href="https://github.com/FAIR-CA-indicators" class="cursor-pointer"> <img src="@/assets/github-mark-white.svg" alt="GitHub" class="h-10"></a>
     </header>
@@ -35,8 +35,8 @@
         <div class="border-t-4 w-1/4 border-light-stroke "></div>
         <div class="w-full flex flex-row gap-x-12 justify-center">
             <router-link to="/" class="cursor-pointer">Home</router-link> 
-            <router-link to="/indicators" class="cursor-pointer" disabled>Indicators</router-link>
-            <router-link to="/about" class="cursor-pointer" :disabled="true">About</router-link>
+<!--             <router-link to="/indicators" class="cursor-pointer" disabled>Indicators</router-link>
+ -->            <router-link to="/about" class="cursor-pointer" :disabled="true">About</router-link>
             <a href="https://github.com/FAIR-CA-indicators" class="cursor-pointer">GitHub repository</a>
         </div>
         <div class="w-full flex flex-row m-auto p-auto justify-center gap-x-12"> <!-- logos -->

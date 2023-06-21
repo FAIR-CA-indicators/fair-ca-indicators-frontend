@@ -5,7 +5,7 @@ export type inputState = {
     subject_type: string;
     has_archive: boolean | null;
     has_model: boolean | null;
-    has_archive_metadata: boolean;
+    has_archive_metadata: boolean | null;
     is_model_standard: boolean;
     is_archive_standard: boolean;
     is_model_metadata_standard: boolean;

@@ -5,10 +5,10 @@
             <p class="pt-6">Fair Combine aims to automate the evaluation of models and archives following the FAIR Combine principle. </p>
 
             <div class="flex rounded-md shadow-none items-center justify-center divide-x" role="group">
-                <button @click="sessionInput.subject_type = 'url'" type="button" class="px-4 py-2 text-sm font-medium text-white disabled:text-opacity-40" > <!-- disabled -->
+                <button @click="sessionInput.subject_type = 'url'" type="button" class="px-4 py-2 text-sm font-medium text-white disabled:text-opacity-40" disabled> <!-- disabled -->
                     external URL
                 </button>
-                <button @click="sessionInput.subject_type = 'file'" type="button" class="px-4 py-2 text-sm font-medium  text-white disabled:text-opacity-40" > <!-- disabled -->
+                <button @click="sessionInput.subject_type = 'file'" type="button" class="px-4 py-2 text-sm font-medium  text-white disabled:text-opacity-40" > 
                     upload
                 </button>
                 <button @click="sessionInput.subject_type = 'manual'" type="button" class="px-4 py-2 text-sm font-medium  text-white disabled:text-opacity-40">
@@ -26,11 +26,12 @@
             </div>
             
             <div class="w-full rounded max-w-2xl m-auto space-y-6" v-else-if="sessionInput.subject_type == 'file'">
-                <form class="w-full flex flex-row space-x-6">
+                <form class="w-full flex flex-row space-x-6  focus-visible:border-gradient-mid">
                     <input type="file" class="block w-full text-sm text-white border-2 rounded-xl
                                                     file:mr-4 file:py-2 file:px-4
                                                     file:border-0 file:border-white
                                                     file:text-sm file:font-semibold
+                                                    file:text-findable
                                                     file:bg-white" @change="localFileChange">
                     <button type="button" class="bg-white text-findable disabled:bg-opacity-50 disabled:text-opacity-50 rounded-lg px-4" @click="uploadArchive" :disabled="archiveSelected">Upload</button>
                 </form>
@@ -41,30 +42,35 @@
                                                 file:mr-4 file:py-2 file:px-4
                                                 file:border-0 file:border-white
                                                 file:text-sm file:font-semibold
+                                                file:text-findable
                                                 file:bg-white" @change="sessionFileChange">
                     <button type="button" class="bg-white text-findable disabled:bg-opacity-50 disabled:text-opacity-50 rounded-lg px-4" @click="loadLocalSession" :disabled="fileSelected">Load</button>
                 </form>
                 <form class="w-full h-10 flex flex-row space-x-6">
-                    <input class="block w-full bg-findable text-sm text-white border-2 rounded-xl" type="text" @input="(event) => {loadId = event.target.value; idInserted = false;}">
+                    <input class="block w-full bg-findable text-sm text-white border-2 rounded-xl p-4 ui-focus-visible:ring-2 ui-focus-visible:ring-offset-2 focus:outline-none" type="text" placeholder="Enter a session ID" @input="(event) => {loadId = event.target.value; idInserted = false;}">
                     <button type="button" class="bg-white text-findable disabled:bg-opacity-50 disabled:text-opacity-50 rounded-lg px-4" @click="loadRemoteSession" :disabled="idInserted">Load</button>
                 </form>
             </div>
             <div v-else-if="sessionInput.subject_type == 'manual'" class="w-full flex-col p-4 shadow-glow shadow-findable-stroke border-findable-stroke border-2 rounded-lg" > 
+                <!--
+                "has_archive_metadata": true,
+                "is_model_metadata_standard": true,
+                 -->
                 <h3 class="mb-4 font-semibold text-white">Do you have a single model file or a Combine Archive in Omex format?</h3>
                 <div class="flex">
                     <div class="flex items-center pl-4 ">
-                        <input id="archive-radio-1" type="radio" :value="true" v-model="sessionInput.has_model" @change="sessionInput.has_archive = false" name="archive-radio" class="w-4 h-4 text-white">
+                        <input id="archive-radio-1" type="radio" :value="true" v-model="sessionInput.has_model" @change="sessionInput.has_archive = false; sessionInput.is_archive_standard = false" name="archive-radio" class="w-4 h-4 text-white">
                         <label for="archive-radio-1" class="w-full py-4 ml-2 text-sm font-medium text-white">Single Model File</label>
                     </div>
                     <div class="flex items-center pl-4">
-                        <input id="archive-radio-2" type="radio" :value="true" v-model="sessionInput.has_archive" @change="sessionInput.has_model = false" name="archive-radio" class="w-4 h-4 text-white">
+                        <input id="archive-radio-2" type="radio" :value="true" v-model="sessionInput.has_archive" @change="sessionInput.has_model = false; sessionInput.is_archive_standard = true" name="archive-radio" class="w-4 h-4 text-white">
                         <label for="archive-radio-2" class="w-full py-4 ml-2 text-sm font-medium text-white">Combine Archive</label>
                     </div>
                 </div>
                 <h3 class="mb-4 font-semibold text-white">Do you provide metadata?</h3>
                 <div class="flex">
                     <div class="flex items-center pl-4 ">
-                        <input id="meta-radio-1" type="radio" :value="true" v-model="hasMetadata"  name="meta-radio" class="w-4 h-4 text-white">
+                        <input id="meta-radio-1" type="radio" :value="true" v-model="hasMetadata" @click="sessionInput.has_archive_metadata = sessionInput.has_archive" name="meta-radio" class="w-4 h-4 text-white">
                         <label for="meta-radio-1" class="w-full py-4 ml-2 text-sm font-medium text-white">Yes</label>
                     </div>
                     <div class="flex items-center pl-4">
@@ -88,7 +94,7 @@
                         <label for="format-radio-1" class="w-full py-4 ml-2 text-sm font-medium text-white">Metadata of the archive as manifest.xml</label>
                     </div>
                     <div class="flex items-center pl-4">
-                        <input id="format-radio-2" type="checkbox" v-model="sessionInput.is_model_metadata_standard" name="format-radio" class="w-4 h-4 text-white" :disabled="!hasMetadata">
+                        <input id="format-radio-2" type="checkbox" v-model="sessionInput.is_model_metadata_standard" name="format-radio" class="w-4 h-4 text-white" :disabled="!hasMetadata || !sessionInput.has_archive">
                         <label for="format-radio-2" class="w-full py-4 ml-2 text-sm font-medium text-white">Metadata of the model as SED-ML</label>
                     </div>
                 </div>
