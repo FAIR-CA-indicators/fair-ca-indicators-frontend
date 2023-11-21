@@ -227,6 +227,7 @@ export default defineComponent ({
                     q.disabled = task.disabled;
                     q.automated = task.automated;
 
+                    console.log(q);
                     if (q.group == "F") {
                         categoryKeys = this.fKeys;
                         categoryArray = this.f;
