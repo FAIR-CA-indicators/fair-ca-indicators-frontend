@@ -1,14 +1,8 @@
 {
-  "files": [],
+  "include": ["src/**/*"],
   "references": [
-    {
-      "path": "./tsconfig.node.json"
-    },
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.cypress-ct.json"
-    }
+    { "path": "./tsconfig.node.json"},
+    { "path": "./tsconfig.app.json"},
+    { "path": "./tsconfig.cypress-ct.json"}
   ]
 }

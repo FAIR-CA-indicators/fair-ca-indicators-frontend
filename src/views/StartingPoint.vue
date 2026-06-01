@@ -8,7 +8,7 @@
                 <button @click="sessionInput.subject_type = 'url'" type="button" class="px-4 py-2 text-sm font-medium text-white disabled:text-opacity-40" disabled> <!-- disabled -->
                     external URL
                 </button>
-                <button @click="sessionInput.subject_type = 'file'" type="button" class="px-4 py-2 text-sm font-medium  text-white disabled:text-opacity-40" > 
+                <button @click="sessionInput.subject_type = 'file'" type="button" class="px-4 py-2 text-sm font-medium  text-white disabled:text-opacity-40" >
                     upload
                 </button>
                 <button @click="sessionInput.subject_type = 'manual'" type="button" class="px-4 py-2 text-sm font-medium  text-white disabled:text-opacity-40">
@@ -20,11 +20,11 @@
             </div>
             <div class="w-full rounded max-w-2xl m-auto space-y-6" v-if="sessionInput.subject_type == 'url'">
                 <form class="w-full h-10 flex flex-row space-x-6">
-                    <input class="block w-full bg-findable text-sm text-white border-2 rounded-xl" placeholder="https://" type="text" @input="(event) => {loadId = event.target.value; idInserted = false;}">
+                    <input class="block w-full bg-findable text-sm text-white border-2 rounded-xl" placeholder="https://" type="text" @input="(event) => {loadId = (event.target as HTMLInputElement).value; idInserted = false;}">
                     <button type="button" class="bg-white text-findable disabled:bg-opacity-50 disabled:text-opacity-50 rounded-lg px-4" @click="loadRemoteSession" :disabled="idInserted">Load</button>
                 </form>
             </div>
-            
+
             <div class="w-full rounded max-w-2xl m-auto space-y-6" v-else-if="sessionInput.subject_type == 'file'">
                 <form class="w-full flex flex-row space-x-6  focus-visible:border-gradient-mid">
                     <input type="file" class="block w-full text-sm text-white border-2 rounded-xl
@@ -47,11 +47,11 @@
                     <button type="button" class="bg-white text-findable disabled:bg-opacity-50 disabled:text-opacity-50 rounded-lg px-4" @click="loadLocalSession" :disabled="fileSelected">Load</button>
                 </form>
                 <form class="w-full h-10 flex flex-row space-x-6">
-                    <input class="block w-full bg-findable text-sm text-white border-2 rounded-xl p-4 ui-focus-visible:ring-2 ui-focus-visible:ring-offset-2 focus:outline-none" type="text" placeholder="Enter a session ID" @input="(event) => {loadId = event.target.value; idInserted = false;}">
+                    <input class="block w-full bg-findable text-sm text-white border-2 rounded-xl p-4 ui-focus-visible:ring-2 ui-focus-visible:ring-offset-2 focus:outline-none" type="text" placeholder="Enter a session ID" @input="(event) => {loadId = (event.target as HTMLInputElement).value; idInserted = false;}">
                     <button type="button" class="bg-white text-findable disabled:bg-opacity-50 disabled:text-opacity-50 rounded-lg px-4" @click="loadRemoteSession" :disabled="idInserted">Load</button>
                 </form>
             </div>
-            <div v-else-if="sessionInput.subject_type == 'manual'" class="w-full flex-col p-4 shadow-glow shadow-findable-stroke border-findable-stroke border-2 rounded-lg" > 
+            <div v-else-if="sessionInput.subject_type == 'manual'" class="w-full flex-col p-4 shadow-glow shadow-findable-stroke border-findable-stroke border-2 rounded-lg" >
                 <!--
                 "has_archive_metadata": true,
                 "is_model_metadata_standard": true,
@@ -86,7 +86,7 @@
                         <label for="modal-standard-radio-1" class="w-full py-4 ml-2 text-sm font-medium text-white">Model as SBML or CellML</label>
                     </div>
 <!--                     <div class="flex items-center pl-4">
-                        <input id="modal-standard-radio-2" type="radio" v-model="sessionInput.is_model_metadata_standard"  name="modal-standard-radio" class="w-4 h-4 text-white">  //@change="sessionInput.is_model_standard = true"  
+                        <input id="modal-standard-radio-2" type="radio" v-model="sessionInput.is_model_metadata_standard"  name="modal-standard-radio" class="w-4 h-4 text-white">  //@change="sessionInput.is_model_standard = true"
                         <label for="modal-standard-radio-2" class="w-full py-4 ml-2 text-sm font-medium text-white">Model as CellML</label>
                     </div> -->
                     <div class="flex items-center pl-4 ">
@@ -117,7 +117,7 @@
 
         </div>
         <div v-if="sessionInput.subject_type == 'url'" class="basis-1/2 p-5 text-xl">
-            <ol class="list-none"> 
+            <ol class="list-none">
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">1</span><span> Enter the URL of a Combine Archive </span></li>
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Start"</li>
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Automatic tests start</li>
@@ -126,7 +126,7 @@
             </ol>
         </div>
         <div v-else-if="sessionInput.subject_type == 'file'" class="basis-1/2 p-5 flex justify-center items-center text-xl">
-            <ol class="list-none"> 
+            <ol class="list-none">
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">1</span><span> Select your local modal or archive </span></li>
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Start"</li>
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Automatic tests start</li>
@@ -135,7 +135,7 @@
             </ol>
         </div>
         <div v-else-if="sessionInput.subject_type == 'manual'" class="basis-1/2 p-5 flex justify-center items-center text-xl">
-            <ol class="list-none"> 
+            <ol class="list-none">
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">1</span> Describe your digital object</li>
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Start"</li>
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Do the self assessment</li>
@@ -143,7 +143,7 @@
             </ol>
         </div>
         <div v-else-if="sessionInput.subject_type == 'load'" class="basis-1/2 p-5 flex justify-center items-center text-xl">
-            <ol class="list-none"> 
+            <ol class="list-none">
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">1</span> Enter your session ID or select your session file</li>
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Load"</li>
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Continue the self assessment</li>
@@ -183,7 +183,7 @@
 
 //import { defineStore, mapStores } from 'pinia';
 import { defineComponent } from 'vue';
- 
+
 import { mapWritableState  } from 'pinia';
 import { useAssessmentStore } from '@/stores/AssessmentStore';
 
@@ -216,14 +216,14 @@ export default defineComponent({
     },
     computed: {
         ...mapWritableState (useAssessmentStore, ["sessionInput", "hasMetadata"]),
-        
+
     },
     methods: {
         startSession: function(){
             //if(!this.sessionInput.path) this.sessionInput.path = null;
             //alert(this.sessionInput.path);
             let sessionInput = this.sessionInput
-            useAssessmentStore().$reset();            
+            useAssessmentStore().$reset();
             this.sessionInput = sessionInput;
             this.$emit('newSession');
         },
@@ -233,7 +233,7 @@ export default defineComponent({
             const reader = new FileReader();
             reader.addEventListener('load', (event) => {
                 console.debug(event);
-                if(event.target) this.sessionLoad = JSON.parse(event.target.result);
+                if(event.target) this.sessionLoad = JSON.parse((event.target as FileReader).result as string);
                 this.fileSelected = false;
 
             });
@@ -243,7 +243,7 @@ export default defineComponent({
         localFileChange: function(event: any){
             this.archiveFile = event.target.files[0];
             this.archiveSelected = false;
-            
+
 /*             const reader = new FileReader();
             reader.addEventListener('load', (event) => {
                 if(event.target) this.archiveFile = event.target.files;
