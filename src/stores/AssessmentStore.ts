@@ -12,6 +12,8 @@ export type inputState = {
     is_archive_metadata_standard: boolean;
     is_biomodel: boolean;
     is_pmr: boolean;
+    metadata: string | null;
+    is_manual: boolean;
 }
 
 export type sessionState = {
@@ -68,7 +70,9 @@ export const useAssessmentStore = defineStore('assessmentStore', {
         is_model_metadata_standard: false,
         is_archive_metadata_standard: false,
         is_biomodel: false,
-        is_pmr: false
+        is_pmr: false,
+        metadata: null,
+        is_manual: false
 
        },
        hasMetadata: null,

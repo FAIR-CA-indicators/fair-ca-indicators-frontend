@@ -14,6 +14,9 @@
                 <button @click="sessionInput.subject_type = 'manual'" type="button" class="px-4 py-2 text-sm font-medium  text-white disabled:text-opacity-40">
                     self assessment
                 </button>
+                <button @click="sessionInput.subject_type = 'hsh'" type="button" class="px-4 py-2 text-sm font-medium  text-white disabled:text-opacity-40">
+                    HSH assessment
+                </button>
                 <button @click="sessionInput.subject_type = 'load'" type="button" class="px-4 py-2 text-sm font-medium  text-white disabled:text-opacity-40">
                     load session
                 </button>
@@ -115,6 +118,33 @@
                 </div>
             </div>
 
+            <div v-else-if="sessionInput.subject_type == 'hsh'" class="w-full flex-col p-4 shadow-glow shadow-findable-stroke border-findable-stroke border-2 rounded-lg">
+                <h3 class="mb-4 font-semibold text-white">How do you want to assess this HSH resource?</h3>
+                <div class="flex">
+                    <div class="flex items-center pl-4 ">
+                        <input id="hsh-mode-radio-1" type="radio" :value="false" v-model="sessionInput.is_manual" name="hsh-mode-radio" class="w-4 h-4 text-white">
+                        <label for="hsh-mode-radio-1" class="w-full py-4 ml-2 text-sm font-medium text-white">Automated (provide metadata)</label>
+                    </div>
+                    <div class="flex items-center pl-4">
+                        <input id="hsh-mode-radio-2" type="radio" :value="true" v-model="sessionInput.is_manual" name="hsh-mode-radio" class="w-4 h-4 text-white">
+                        <label for="hsh-mode-radio-2" class="w-full py-4 ml-2 text-sm font-medium text-white">Manual self-assessment</label>
+                    </div>
+                </div>
+
+                <div v-if="!sessionInput.is_manual" class="w-full flex flex-row space-x-6">
+                    <input type="file" accept="application/json" class="block w-full text-sm text-white border-2 rounded-xl
+                                                    file:mr-4 file:py-2 file:px-4
+                                                    file:border-0 file:border-white
+                                                    file:text-sm file:font-semibold
+                                                    file:text-findable
+                                                    file:bg-white" @change="hshMetadataFileChange">
+                </div>
+
+                <div class="flex w-full items-center justify-center pt-6">
+                    <button @click="startSession()" class="bg-white text-findable rounded py-2 px-4 disabled:bg-opacity-50 disabled:text-opacity-50" :disabled="!sessionInput.is_manual && hshMetadataSelected">Start</button>
+                </div>
+            </div>
+
         </div>
         <div v-if="sessionInput.subject_type == 'url'" class="basis-1/2 p-5 text-xl">
             <ol class="list-none">
@@ -140,6 +170,15 @@
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">2</span> Click "Start"</li>
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Do the self assessment</li>
                 <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">4</span> Get your assesment results</li>
+            </ol>
+        </div>
+        <div v-else-if="sessionInput.subject_type == 'hsh'" class="basis-1/2 p-5 flex justify-center items-center text-xl">
+            <ol class="list-none">
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">1</span> Choose automated or manual assessment</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">2</span> If automated, provide the HSH metadata export</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">3</span> Click "Start"</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">4</span> Respond to any remaining questions</li>
+                <li class="flex mb-4 items-center"><span class="w-10 h-10 rounded-full border-2 mr-2 flex justify-center items-center">5</span> Get your assesment results</li>
             </ol>
         </div>
         <div v-else-if="sessionInput.subject_type == 'load'" class="basis-1/2 p-5 flex justify-center items-center text-xl">
@@ -204,6 +243,7 @@ export default defineComponent({
             loadId: "",
             archiveSelected: true,
             fileSelected: true,
+            hshMetadataSelected: true,
             idInserted: true
 
         }
@@ -239,6 +279,17 @@ export default defineComponent({
             });
             reader.readAsText(file);
 
+        },
+        hshMetadataFileChange: function(event: any){
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.addEventListener('load', (event) => {
+                // Backend expects the raw JSON text, not a parsed object -
+                // each automated check does its own json.loads() on demand.
+                if(event.target) this.sessionInput.metadata = (event.target as FileReader).result as string;
+                this.hshMetadataSelected = false;
+            });
+            reader.readAsText(file);
         },
         localFileChange: function(event: any){
             this.archiveFile = event.target.files[0];
