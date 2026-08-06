@@ -246,8 +246,9 @@ export default defineComponent ({
                     for(const [childID, childTask] of Object.entries(task.children)){
                         let childQ = allIndicators[childTask.name];
                         childQ.taskId = childID;
-                        childQ.status = task.status;
-                        childQ.disabled = task.disabled;
+                        childQ.status = childTask.status;
+                        childQ.disabled = childTask.disabled;
+                        childQ.automated = childTask.automated;
                         categoryArray.push(childQ);
                     }
                     if (!categoryKeys.includes(q.sub_group))
@@ -280,35 +281,48 @@ export default defineComponent ({
                 .then(response => {
                     let r = response.data;
 
-                    let name: keyof typeof r.tasks;
-                    for (name in r.tasks) {
+                    // r.tasks only contains top-level tasks (tasks with a parent are
+                    // nested under their parent's `children`), so it must be flattened
+                    // to pick up updates to dependent (child) tasks as well.
+                    const flattenTasks = (tasksDict: Record<string, any>): Record<string, any> => {
+                        let flat: Record<string, any> = {};
+                        for (const [id, task] of Object.entries(tasksDict)) {
+                            flat[id] = task;
+                            if (task.children) Object.assign(flat, flattenTasks(task.children));
+                        }
+                        return flat;
+                    };
+                    const allTasks = flattenTasks(r.tasks);
 
-                        //console.debug(r.tasks[name]);
+                    let name: keyof typeof allTasks;
+                    for (name in allTasks) {
+
+                        //console.debug(allTasks[name]);
                         this.f.forEach(q => {
-                            if(q.taskId == name && q.disabled != r.tasks[name].disabled) q.disabled = r.tasks[name].disabled;
-                            if(q.taskId == name && q.automated != r.tasks[name].automated) q.automated = r.tasks[name].automated;
-                            if(q.taskId == name && q.status != r.tasks[name].status) q.status = r.tasks[name].status;
+                            if(q.taskId == name && q.disabled != allTasks[name].disabled) q.disabled = allTasks[name].disabled;
+                            if(q.taskId == name && q.automated != allTasks[name].automated) q.automated = allTasks[name].automated;
+                            if(q.taskId == name && q.status != allTasks[name].status) q.status = allTasks[name].status;
                         })
 
                         this.a.forEach(q => {
-                            if(q.taskId == name && q.disabled != r.tasks[name].disabled) q.disabled = r.tasks[name].disabled;
-                            if(q.taskId == name && q.automated != r.tasks[name].automated) q.automated = r.tasks[name].automated;
-                            if(q.taskId == name && q.status != r.tasks[name].status) q.status = r.tasks[name].status;
+                            if(q.taskId == name && q.disabled != allTasks[name].disabled) q.disabled = allTasks[name].disabled;
+                            if(q.taskId == name && q.automated != allTasks[name].automated) q.automated = allTasks[name].automated;
+                            if(q.taskId == name && q.status != allTasks[name].status) q.status = allTasks[name].status;
                         })
 
                         this.i.forEach(q => {
-                            if(q.taskId == name && q.disabled != r.tasks[name].disabled) q.disabled = r.tasks[name].disabled;
-                            if(q.taskId == name && q.automated != r.tasks[name].automated) q.automated = r.tasks[name].automated;
-                            if(q.taskId == name && q.status != r.tasks[name].status) q.status = r.tasks[name].status;
+                            if(q.taskId == name && q.disabled != allTasks[name].disabled) q.disabled = allTasks[name].disabled;
+                            if(q.taskId == name && q.automated != allTasks[name].automated) q.automated = allTasks[name].automated;
+                            if(q.taskId == name && q.status != allTasks[name].status) q.status = allTasks[name].status;
                         })
 
 
                         this.r.forEach(q => {
-                            if(q.taskId == name && q.disabled != r.tasks[name].disabled) q.disabled = r.tasks[name].disabled;
-                            if(q.taskId == name && q.automated != r.tasks[name].automated) q.automated = r.tasks[name].automated;
-                            if(q.taskId == name && q.status != r.tasks[name].status) q.status = r.tasks[name].status;
+                            if(q.taskId == name && q.disabled != allTasks[name].disabled) q.disabled = allTasks[name].disabled;
+                            if(q.taskId == name && q.automated != allTasks[name].automated) q.automated = allTasks[name].automated;
+                            if(q.taskId == name && q.status != allTasks[name].status) q.status = allTasks[name].status;
                         })
-                        
+
                     }
                 
                     this.score.score_all = Math.floor(r.score_all * 100);
