@@ -262,7 +262,7 @@ export default defineComponent({
         startSession: function(){
             //if(!this.sessionInput.path) this.sessionInput.path = null;
             //alert(this.sessionInput.path);
-            let sessionInput = this.sessionInput
+            const sessionInput = this.sessionInput
             useAssessmentStore().$reset();
             this.sessionInput = sessionInput;
             this.$emit('newSession');

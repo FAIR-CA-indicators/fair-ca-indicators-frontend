@@ -84,6 +84,7 @@ describe('StartingPoint.vue - HSH assessment', () => {
       const store = useAssessmentStore(pinia)
       expect(store.sessionInput.subject_type).to.eq('hsh')
       expect(store.sessionInput.is_manual).to.eq(true)
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions -- chai BDD getter assertion, not an unused expression
       expect(store.sessionInput.metadata).to.be.null
     })
   })

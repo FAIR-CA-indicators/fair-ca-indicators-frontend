@@ -131,7 +131,7 @@ export default defineComponent ({
         console.debug("session type: ", this.sessionType);
         console.debug("backend: ", this.backend);
 
-        let getIndicators = axios.get(this.backend + '/indicators', this.applicationHeader);
+        const getIndicators = axios.get(this.backend + '/indicators', this.applicationHeader);
         let getSession;
         //start session
         if(this.sessionType == 'loadRemoteSession'){
@@ -165,9 +165,9 @@ export default defineComponent ({
             .then((responses) => {
                 console.debug(responses);
                 if(responses[0] == undefined) throw new Error('Indicators could not be retrieved');
-                let allIndicators = responses[0].data;
+                const allIndicators = responses[0].data;
 
-                let indicatorMap: Record<string, {
+                const indicatorMap: Record<string, {
                     description: string;
                     name: string;
                     priority: string;
@@ -206,7 +206,7 @@ export default defineComponent ({
                     id: string;
                     name: string;
                     session_id: string;
-                    children: Object;
+                    children: object;
                     priority: string;
                     status: string;
                     comment: string;
@@ -221,7 +221,7 @@ export default defineComponent ({
                 let categoryKeys;
                 
                 for (const [id, task] of Object.entries(tasks)) {
-                    let q = allIndicators[task.name];
+                    const q = allIndicators[task.name];
                     q.taskId = id;
                     q.status = task.status;
                     q.disabled = task.disabled;
@@ -244,7 +244,7 @@ export default defineComponent ({
                     
                     categoryArray.push(q);
                     for(const [childID, childTask] of Object.entries(task.children)){
-                        let childQ = allIndicators[childTask.name];
+                        const childQ = allIndicators[childTask.name];
                         childQ.taskId = childID;
                         childQ.status = childTask.status;
                         childQ.disabled = childTask.disabled;
@@ -279,13 +279,19 @@ export default defineComponent ({
 
             axios.patch(this.backend + "/session/" + this.id + "/tasks/" + q.taskId,  { "status": score }, this.applicationHeader)
                 .then(response => {
-                    let r = response.data;
+                    const r = response.data;
 
                     // r.tasks only contains top-level tasks (tasks with a parent are
                     // nested under their parent's `children`), so it must be flattened
                     // to pick up updates to dependent (child) tasks as well.
-                    const flattenTasks = (tasksDict: Record<string, any>): Record<string, any> => {
-                        let flat: Record<string, any> = {};
+                    type TaskResponse = {
+                        disabled: boolean;
+                        automated: boolean;
+                        status: string;
+                        children?: Record<string, TaskResponse>;
+                    };
+                    const flattenTasks = (tasksDict: Record<string, TaskResponse>): Record<string, TaskResponse> => {
+                        const flat: Record<string, TaskResponse> = {};
                         for (const [id, task] of Object.entries(tasksDict)) {
                             flat[id] = task;
                             if (task.children) Object.assign(flat, flattenTasks(task.children));

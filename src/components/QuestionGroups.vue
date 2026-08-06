@@ -103,7 +103,7 @@
             disabled: boolean;
             automated: boolean;
         }[], sub: string) {
-            let arr: {
+            const arr: {
                 group: string;
                 sub_group: string;
                 name: string;
@@ -133,7 +133,7 @@
             disabled: boolean;
             automated: boolean;
         }[], sub: string) {
-            let filtered = this.filterQ(qS, sub);
+            const filtered = this.filterQ(qS, sub);
             return filtered.length === 0;
         },
         addOpacitiy(inheritedClasses: string, priority: string) {
