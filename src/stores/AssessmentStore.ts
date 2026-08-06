@@ -18,7 +18,7 @@ export type inputState = {
 
 export type sessionState = {
         sessionType: string,
-        id: -1,
+        id: string,
         sessionInput: inputState,
         hasMetadata: boolean | null,
         f: question[],

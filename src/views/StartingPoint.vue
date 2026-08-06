@@ -239,7 +239,7 @@ export default defineComponent({
     data(){
         return{
             sessionLoad: Object,
-            archiveFile: File,
+            archiveFile: null as File | null,
             loadId: "",
             archiveSelected: true,
             fileSelected: true,
@@ -267,8 +267,8 @@ export default defineComponent({
             this.sessionInput = sessionInput;
             this.$emit('newSession');
         },
-        sessionFileChange: function(event: any){
-            const file = event.target.files[0];
+        sessionFileChange: function(event: Event){
+            const file = (event.target as HTMLInputElement).files![0];
             console.debug(file);
             const reader = new FileReader();
             reader.addEventListener('load', (event) => {
@@ -280,8 +280,8 @@ export default defineComponent({
             reader.readAsText(file);
 
         },
-        hshMetadataFileChange: function(event: any){
-            const file = event.target.files[0];
+        hshMetadataFileChange: function(event: Event){
+            const file = (event.target as HTMLInputElement).files![0];
             const reader = new FileReader();
             reader.addEventListener('load', (event) => {
                 // Backend expects the raw JSON text, not a parsed object -
@@ -291,8 +291,8 @@ export default defineComponent({
             });
             reader.readAsText(file);
         },
-        localFileChange: function(event: any){
-            this.archiveFile = event.target.files[0];
+        localFileChange: function(event: Event){
+            this.archiveFile = (event.target as HTMLInputElement).files![0];
             this.archiveSelected = false;
 
 /*             const reader = new FileReader();

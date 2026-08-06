@@ -85,6 +85,30 @@ import router from '@/router';
 
 //const useAssessmentStore = defineStore('assessment')
 
+type TaskNode = {
+    id: string;
+    name: string;
+    session_id: string;
+    children: object;
+    priority: string;
+    status: string;
+    comment: string;
+    disabled: boolean;
+    automated: boolean;
+    score: number;
+};
+
+type SessionResponseData = {
+    id: string;
+    tasks: Record<string, TaskNode>;
+    score_all: number;
+    score_all_essential: number;
+    score_all_nonessential: number;
+    score_applicable_all: number;
+    score_applicable_essential: number;
+    score_applicable_nonessential: number;
+};
+
 export default defineComponent ({
     emits: {
 
@@ -131,7 +155,7 @@ export default defineComponent ({
         console.debug("session type: ", this.sessionType);
         console.debug("backend: ", this.backend);
 
-        const getIndicators = axios.get(this.backend + '/indicators', this.applicationHeader);
+        const getIndicators = axios.get<question[]>(this.backend + '/indicators', this.applicationHeader);
         let getSession;
         //start session
         if(this.sessionType == 'loadRemoteSession'){
@@ -167,25 +191,13 @@ export default defineComponent ({
                 if(responses[0] == undefined) throw new Error('Indicators could not be retrieved');
                 const allIndicators = responses[0].data;
 
-                const indicatorMap: Record<string, {
-                    description: string;
-                    name: string;
-                    priority: string;
-                    group: string;
-                    sub_group: string;
-                    question: string;
-                    short: string;
-                    status: string;
-                    disabled: boolean;
-                    taskId: string;
-                }> = {};
+                const indicatorMap: Record<string, question> = {};
 
-                allIndicators.forEach((obj: {description: string; name: string; priority: string; group: string; sub_group: string; question: string; short: string; status: string; disabled: boolean; taskId: string;}) => {
+                allIndicators.forEach((obj: question) => {
                     indicatorMap[obj.name] = obj;
                 });
-                let session: AxiosResponse<any, any>;
                 if(responses[1] == undefined) throw new Error('Session could not be retrieved');
-                session = responses[1];
+                const session = responses[1];
                 this.createSession(session, indicatorMap);
             })
             .catch((e) => {
@@ -197,25 +209,12 @@ export default defineComponent ({
 
     },
     methods: {
-        createSession(response: AxiosResponse<any, any>, allIndicators: { [x: string]: any; }) {
+        createSession(response: AxiosResponse<SessionResponseData>, allIndicators: Record<string, question>) {
 
                 console.log(response, allIndicators);
                 this.id = response.data.id;
                 router.replace({ path: '/session', query: {id: this.id} });
-                let tasks: Record<string, {
-                    id: string;
-                    name: string;
-                    session_id: string;
-                    children: object;
-                    priority: string;
-                    status: string;
-                    comment: string;
-                    disabled: boolean;
-                    automated: boolean;
-                    score: number;
-                }> = {};
-
-                tasks = response.data.tasks;
+                const tasks: Record<string, TaskNode> = response.data.tasks;
                 console.log(tasks);
                 let categoryArray;
                 let categoryKeys;

@@ -22,7 +22,6 @@
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.2.0",
     "@types/node": "^22.0.0",
     "@vitejs/plugin-vue": "^6.0.0",
     "@vue/eslint-config-prettier": "^10.2.0",

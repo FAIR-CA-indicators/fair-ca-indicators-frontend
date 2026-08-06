@@ -50,7 +50,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { RouterLink, RouterView } from 'vue-router';
 import router from './router';
 
 import { mapWritableState } from 'pinia';
@@ -82,8 +81,8 @@ export default defineComponent ({
             
             
             loadId: "",
-            localSession: Object,
-            omexFile: File,
+            localSession: null as Record<string, unknown> | null,
+            omexFile: null as File | null,
             sessionMode: ''
         };
     },
@@ -104,12 +103,12 @@ export default defineComponent ({
             this.sessionType = 'loadRemoteSession';
             router.push('/session');
         },
-        loadLocalSession(localSession: any){
+        loadLocalSession(localSession: Record<string, unknown>){
             this.localSession = localSession;
             this.sessionType = 'loadLocalSession';
             router.push('/session');
         },
-        uploadOmex(file: any){
+        uploadOmex(file: File){
             this.omexFile = file;
             this.sessionType = 'loadArchive';
             router.push('/session');
